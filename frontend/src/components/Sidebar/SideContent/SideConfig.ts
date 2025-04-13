@@ -147,6 +147,12 @@ export const getRoutesByHeadTab = ({ headTab }: { headTab: string }) => {
             { Icon: FiSettings, title: "Site Configuration" },
           ],
         },
+        {
+          Icon: FiUser,
+          title: "Users",
+          hasSubmenu: false,
+          submenu: [],
+        },
       ];
     default:
       return [];

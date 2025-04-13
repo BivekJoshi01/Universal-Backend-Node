@@ -4,3 +4,8 @@ export const authenticate = async (formData:object) => {
   const { data } = await axiosInstance.post("http://localhost:5000/api/user/login", formData);
   return data;
 };
+
+export const register = async (formData:object) => {
+  const { data } = await axiosInstance.post("http://localhost:5000/api/user", formData);
+  return data;
+};

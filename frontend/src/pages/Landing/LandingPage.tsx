@@ -10,11 +10,10 @@ import Products from "./Products";
 import Partners from "./Partners";
 import Testimonials from "./Testimonials";
 import Popover from "@mui/material/Popover";
-import { useNavigate } from "react-router";
+import RegisterPage from "../Auth/Register/RegisterPage";
 
 const LandingPage: React.FC = () => {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const currentPage = useSelector(
     (state: RootState) => state.navigation.currentPage
   );
@@ -50,6 +49,8 @@ const LandingPage: React.FC = () => {
         return <Testimonials />;
       case "Login":
         return <LoginPage />;
+      case "SignUp":
+        return <RegisterPage />;
       case "Home":
       default:
         return (
@@ -71,7 +72,7 @@ const LandingPage: React.FC = () => {
             </p>
             <button
               className="mt-6 px-8 py-3 text-lg font-semibold text-white bg-blue-600 rounded-full shadow-lg hover:bg-blue-500 transition-all duration-300"
-              onClick={() => navigate("/register")}
+              onClick={() => handleNavigation("SignUp")}
             >
               Scale with Us!
             </button>

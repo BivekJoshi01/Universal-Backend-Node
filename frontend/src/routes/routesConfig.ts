@@ -21,6 +21,7 @@ import StockEntry from "../pages/Setting/StockEntry/StockEntry";
 // -----------------------------------Settings-------------------------------------------------------------------------
 
 import AdminDashboard from "../pages/Menu/Home/Dashbaord/AdminDashboard";
+import User from "../pages/Others/User/User";
 
 export const MenuRoutesConfig = [
   {
@@ -155,6 +156,11 @@ export const MenuRoutesConfig = [
           { path: "Organization Management", element: ProductManagement },
           { path: "Site Configuration", element: ProductManagement },
         ],
+      },
+      {
+        path: "Users",
+        element: User,
+        children: [],
       },
     ],
   },

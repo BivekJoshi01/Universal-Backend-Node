@@ -4,7 +4,6 @@ import { HashRouter, Route, Routes } from "react-router";
 import AdminPageLayout from "../layout/AdminPageLayout";
 
 // ---------------------------------------------------------------------------------------
-import LoginPage from "../pages/Auth/Login/LoginPage";
 import RegisterPage from "../pages/Auth/Register/RegisterPage";
 import { MenuRoutesConfig } from "./routesConfig";
 import LandingPage from "../pages/Landing/LandingPage";
@@ -20,7 +19,6 @@ const AppRoutes: React.FC = () => {
         {/* Root route */}
         <Route path="/" element={<LandingPage />} />
         <Route path="/chat" element={<Chat />} />
-        <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
 
         {/* Admin routes */}
