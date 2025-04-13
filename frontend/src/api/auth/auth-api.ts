@@ -1,11 +1,22 @@
 import { axiosInstance } from "../../utils/axiosInterceptor";
 
-export const authenticate = async (formData:object) => {
-  const { data } = await axiosInstance.post("http://localhost:5000/api/user/login", formData);
+export const authenticate = async (formData: object) => {
+  const { data } = await axiosInstance.post(
+    "api/user/login",
+    formData
+  );
   return data;
 };
 
-export const register = async (formData:object) => {
-  const { data } = await axiosInstance.post("http://localhost:5000/api/user", formData);
+export const register = async (formData: object) => {
+  const { data } = await axiosInstance.post(
+    "api/user",
+    formData
+  );
+  return data;
+};
+
+export const getAllUsers = async () => {
+  const { data } = await axiosInstance.get("api/user?search=b");
   return data;
 };

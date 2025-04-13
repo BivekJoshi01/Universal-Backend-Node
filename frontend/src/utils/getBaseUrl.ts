@@ -1,5 +1,5 @@
 export const getBaseUrl = () => {
-    return "https://192.168.1.17/"
+    return "http://localhost:5000/"
   
   };
   export const getDocUrl = () => {

@@ -1,9 +1,10 @@
-import { useMutation } from "@tanstack/react-query";
-import { authenticate, register } from "./auth-api";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { authenticate, getAllUsers, register } from "./auth-api";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router";
 import { useDispatch } from "react-redux";
 import { setCurrentPage } from "../../redux/reducer/navigationSlice";
+import { setUserToken } from "../../utils/cookieHelper";
 
 interface LoginFormData {
   email: string;
@@ -11,7 +12,7 @@ interface LoginFormData {
 }
 
 interface RegisterFormData {
-  name:string;
+  name: string;
   email: string;
   password: string;
 }
@@ -37,9 +38,8 @@ export const useAuthHook = () => {
     }): Promise<AuthResponse> => {
       try {
         const response = await authenticate(formData);
-        
-        console.log("🚀 ~ useAuthHook ~ response:", response)
-        return response.data;
+        setUserToken(response?.token);
+        return response;
       } catch (error: any) {
         throw error;
       }
@@ -56,7 +56,6 @@ export const useAuthHook = () => {
   });
 };
 
-
 export const useRegisterHook = () => {
   const dispatch = useDispatch();
 
@@ -69,7 +68,7 @@ export const useRegisterHook = () => {
     }): Promise<AuthResponse> => {
       try {
         const response = await register(formData);
-        
+
         return response.data;
       } catch (error: any) {
         throw error;
@@ -84,5 +83,16 @@ export const useRegisterHook = () => {
         error?.response?.data?.message || error.message || "Sign up Failed";
       toast.error(message);
     },
+  });
+};
+
+export const useGetAllUser = () => {
+  return useQuery({
+    queryKey: ["getAllUsers"],
+    queryFn: () => getAllUsers(),
+    refetchOnWindowFocus: false,
+    refetchInterval: undefined,
+    refetchOnMount: false,
+    refetchOnReconnect: false,
   });
 };

@@ -24,7 +24,7 @@ interface CustomTableProps<T extends Record<string, any>> {
   enableHiding?: boolean;
   enableFullScreenToggle?: boolean;
   enableGlobalFilter?: boolean;
-  // density?: "compact" | "comfortable" | "spacious";
+  density?: string
   // showColumnFilters?: boolean;
 }
 
@@ -51,8 +51,6 @@ const CustomTable = <T extends Record<string, any>>({
   enableHiding,
   enableFullScreenToggle,
   enableGlobalFilter,
-  // density = "compact",
-  // showColumnFilters = false,
 }: CustomTableProps<T>) => {
   const handleRowClick = (row: MRT_Row<T>) => {
     onRowClick?.(row);
@@ -78,7 +76,7 @@ const CustomTable = <T extends Record<string, any>>({
           isLoading,
         }}
         initialState={{
-          // density,
+          density: "compact",
           showColumnFilters: filter,
           columnPinning: {
             right: ["mrt-row-actions"],

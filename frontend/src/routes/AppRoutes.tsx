@@ -3,7 +3,7 @@ import React from "react";
 import { HashRouter, Route, Routes } from "react-router";
 import AdminPageLayout from "../layout/AdminPageLayout";
 
-// ---------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------u
 import RegisterPage from "../pages/Auth/Register/RegisterPage";
 import { MenuRoutesConfig } from "./routesConfig";
 import LandingPage from "../pages/Landing/LandingPage";
