@@ -1,7 +1,6 @@
 const express = require("express");
 const cors = require("cors");
 const dontenv = require("dotenv");
-const { chats } = require("./data/data");
 require("./config/db");
 const colors = require("colors");
 const userRoutes = require("./routes/user.routes");

@@ -17,6 +17,6 @@ export const register = async (formData: object) => {
 };
 
 export const getAllUsers = async () => {
-  const { data } = await axiosInstance.get("api/user?search=b");
+  const { data } = await axiosInstance.get("api/user?search=");
   return data;
 };

@@ -6,30 +6,30 @@ import { nanoid } from '@reduxjs/toolkit';
 import { useGetAllUser } from '../../../api/auth/auth-hook';
 
 type UserData = {
-    name: {
-        firstName: string;
-        lastName: string;
-    };
-    address: string;
+    // name: {
+    //     firstName: string;
+    //     lastName: string;
+    // };
+    // address: string;
 };
 
 
 const User: React.FC = () => {
 
-    const {data}=useGetAllUser();
-    console.log("🚀 ~ data:", data)
-    
+    const { data } = useGetAllUser();
+
+
     const columns = useMemo<MRT_ColumnDef<UserData>[]>(
         () => [
             {
                 id: nanoid(),
-                accessorKey: 'name.firstName', //access nested data with dot notation
-                header: 'First Name',
+                accessorKey: 'name', //access nested data with dot notation
+                header: 'Name',
             },
             {
                 id: nanoid(),
-                accessorKey: 'name.lastName',
-                header: 'Last Name',
+                accessorKey: 'email',
+                header: 'Email',
             },
             {
                 id: nanoid(),
@@ -50,7 +50,7 @@ const User: React.FC = () => {
             </Header>
             <CustomTable
                 columns={columns}
-                data={[]}
+                data={data}
                 isLoading={false}
                 enableRowNumbers
             />
