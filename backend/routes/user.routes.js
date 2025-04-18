@@ -9,9 +9,9 @@ const { addCompany } = require("../controllers/utilitiesC/company.controller");
 
 const router = express.Router();
 
-router.route("/").post(registerUser);
+router.route("/register").post(registerUser);
 router.post("/login", authUser);
-router.route("/").get(protect, allUsers);
+router.route("/getAll").get(protect, allUsers);
 
 router.route("/company").post(addCompany);
 

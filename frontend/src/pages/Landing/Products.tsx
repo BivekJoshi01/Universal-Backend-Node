@@ -1,34 +1,110 @@
-import React from 'react';
+import React, { useState } from "react";
 
-const Products:React.FC = () => {
-  const products = [
-    { id: 1, name: 'Product 1', image: 'https://via.placeholder.com/300', price: '$20' },
-    { id: 2, name: 'Product 2', image: 'https://via.placeholder.com/300', price: '$30' },
-    { id: 3, name: 'Product 3', image: 'https://via.placeholder.com/300', price: '$40' },
-    { id: 4, name: 'Product 4', image: 'https://via.placeholder.com/300', price: '$50' },
-  ];
+const ORIGINAL_DATA = [
+  { id: 1, title: "Pen", img: "http://image.png" },
+  { id: 2, title: "Copy", img: "http://image.png" },
+  { id: 3, title: "Pencil", img: "http://image.png" },
+  { id: 4, title: "Dot", img: "http://image.png" },
+  { id: 5, title: "Eraser", img: "http://image.png" },
+  { id: 6, title: "Game", img: "http://image.png" },
+  { id: 7, title: "MOMO", img: "http://image.png" },
+];
+
+const VISIBLE_COUNT = 7; // Should be odd to center one item
+const CENTER_INDEX = Math.floor(VISIBLE_COUNT / 2);
+
+const getHeightByIndex = (index: number) => {
+  const distanceFromCenter = Math.abs(index - CENTER_INDEX);
+
+  switch (distanceFromCenter) {
+    case 0:
+      return 600;
+    case 1:
+      return 500;
+    case 2:
+      return 400;
+    default:
+      return 300;
+  }
+};
+
+const Products: React.FC = () => {
+  const [startIndex, setStartIndex] = useState(0);
+
+  const getRotatedItems = () => {
+    const data = [...ORIGINAL_DATA];
+    const rotated: typeof ORIGINAL_DATA = [];
+
+    for (let i = 0; i < VISIBLE_COUNT; i++) {
+      const index = (startIndex + i) % data.length;
+      rotated.push(data[index]);
+    }
+
+    return rotated;
+  };
+
+  const handleNext = () => {
+    setStartIndex((prev) => (prev + 1) % ORIGINAL_DATA.length);
+  };
+
+  const handlePrev = () => {
+    setStartIndex((prev) =>
+      (prev - 1 + ORIGINAL_DATA.length) % ORIGINAL_DATA.length
+    );
+  };
+
+  const items = getRotatedItems();
 
   return (
-    <div className="">
-      <h2 className="text-3xl font-bold text-center mb-8">Our Products</h2>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
-        {products.map((product) => (
-          <div
-            key={product.id}
-            className="bg-606268 p-6 rounded-lg shadow-lg flex flex-col items-center text-center"
-          >
-            <img
-              src={product.image}
-              alt={product.name}
-              className="w-48 h-48 object-cover rounded-lg mb-4"
-            />
-            <h3 className="text-xl font-semibold mb-2">{product.name}</h3>
-            <p className="text-gray-500 mb-4">{product.price}</p>
-            <button className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400">
-              Add to Cart
-            </button>
-          </div>
-        ))}
+    <div className="w-full flex flex-col items-center">
+      {/* Controls */}
+      <div className="mb-4 flex gap-4">
+        <button
+          onClick={handlePrev}
+          className="bg-gray-300 hover:bg-gray-400 px-4 py-1 rounded"
+        >
+          Prev
+        </button>
+        <button
+          onClick={handleNext}
+          className="bg-gray-300 hover:bg-gray-400 px-4 py-1 rounded"
+        >
+          Next
+        </button>
+      </div>
+
+      {/* Carousel */}
+      <div className="flex gap-2.5 justify-center items-center">
+        {items.map((item, index) => {
+          const height = getHeightByIndex(index);
+          const isActive = index === CENTER_INDEX;
+
+          return (
+            <div
+              key={item.id}
+              className={`rounded-xl bg-blue-600 text-white transition-all duration-300 flex items-center justify-center ${
+                isActive ? "w-[500px]" : "w-[100px]"
+              }`}
+              style={{ height }}
+            >
+              {isActive ? (
+                <div className="flex flex-col items-center justify-center">
+                  <img
+                    src={item.img}
+                    alt={item.title}
+                    className="w-24 h-24 object-contain mb-4"
+                  />
+                  <h3 className="text-xl font-semibold">{item.title}</h3>
+                  <span className="text-lg mt-2">#{item.id}</span>
+                </div>
+              ) : (
+                <span className="transform rotate-[-90deg] text-sm font-medium">
+                  {item.title}
+                </span>
+              )}
+            </div>
+          );
+        })}
       </div>
     </div>
   );

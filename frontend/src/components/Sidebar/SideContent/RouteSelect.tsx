@@ -22,12 +22,24 @@ const RouteSelect: React.FC<RouteSelectProps> = ({ headTab }) => {
 
   const routes = getRoutesByHeadTab({ headTab });
 
-  const handleRouteClick = (title: string, hasSubmenu: boolean) => {
+  // const handleRouteClick = (title: string, hasSubmenu: boolean) => {
+  //   setSelectedRoute(title);
+  //   setOpenSubmenu(hasSubmenu ? (openSubmenu === title ? null : title) : null);
+
+  //   navigate(`/${headTab}/${title}`);
+  // };
+
+  const handleRouteClick = (title: string, hasSubmenu: boolean, submenu?: { title: string }[]) => {
     setSelectedRoute(title);
     setOpenSubmenu(hasSubmenu ? (openSubmenu === title ? null : title) : null);
 
-    navigate(`/${headTab}/${title}`);
+    if (hasSubmenu && submenu && submenu.length > 0) {
+      navigate(`/${headTab}/${title}/${submenu[0].title}`);
+    } else {
+      navigate(`/${headTab}/${title}`);
+    }
   };
+
 
   return (
     <div className="space-y-1">
@@ -39,7 +51,7 @@ const RouteSelect: React.FC<RouteSelectProps> = ({ headTab }) => {
           title={title}
           hasSubmenu={hasSubmenu}
           submenu={submenu}
-          onClick={() => handleRouteClick(title, hasSubmenu)}
+          onClick={() => handleRouteClick(title, hasSubmenu, submenu)}
           isSubmenuOpen={openSubmenu === title}
           headTab={headTab}
           navigate={navigate}
@@ -70,7 +82,8 @@ const Route = ({
   headTab: string;
   navigate: (path: string) => void;
 }) => {
-  const [activeSubmenuItem, setActiveSubmenuItem] = useState<string | null>(null);
+  // console.log("🚀 ~ submenu:", submenu)
+  const [activeSubmenuItem, setActiveSubmenuItem] = useState<string | null>(submenu[0]?.title);
 
   const handleSubmenuItemClick = (submenuTitle: string) => {
     setActiveSubmenuItem(submenuTitle);
@@ -93,14 +106,14 @@ const Route = ({
 
       {hasSubmenu && isSubmenuOpen && (
         <div className="ml-8 mt-2 space-y-2">
-          {submenu.map((item, index) => (
+          {submenu?.map((item, index) => (
             <button
               key={index}
               className={`flex items-center gap-2 text-sm text-stone-600 w-full text-left hover:text-stone-800 py-1 px-1 rounded ${activeSubmenuItem === item.title ? "bg-violet-100 text-stone-950 shadow" : "hover:bg-stone-200 bg-transparent text-stone-500 shadow-none"}`}
               onClick={() => handleSubmenuItemClick(item.title)}
             >
               <item.Icon className={activeSubmenuItem === item.title ? "text-violet-500" : ""} />
-              {item.title}
+              {item?.title}
             </button>
           ))}
         </div>

@@ -1,9 +1,24 @@
-import React from 'react'
+import React, { useState } from "react";
+import Header from "../../../../components/Header/Header";
+import { FiPlus } from "react-icons/fi";
 
-const PurchaseInvoice : React.FC= () => {
+const PurchaseInvoice: React.FC = () => {
+  const [openModel, setOpenModel] = useState(false);
+
   return (
-    <div>PurchaseInvoice</div>
-  )
-}
+    <div>
+      <Header
+        modelWidth="40%"
+        modelTitle="Invoice"
+        buttonTitle="Add Invoice"
+        buttonIcon={<FiPlus />}
+        openModel={openModel}
+        setOpenModel={setOpenModel}
+      >
+        <></>
+      </Header>
+    </div>
+  );
+};
 
-export default PurchaseInvoice
+export default PurchaseInvoice;
