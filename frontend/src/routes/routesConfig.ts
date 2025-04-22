@@ -24,6 +24,7 @@ import AdminDashboard from "../pages/Menu/Home/Dashbaord/AdminDashboard";
 import User from "../pages/Others/User/User";
 
 import Chat from "../pages/Chat/Chat";
+import Area from "../pages/Menu/Customer/Area/Area";
 
 export const MenuRoutesConfig = [
   {
@@ -41,7 +42,7 @@ export const MenuRoutesConfig = [
         children: [
           { path: "Supplier/ Other Party", element: ProductManagement },
           { path: "Customer", element: ProductCompany },
-          { path: "Area", element: ProductGroup },
+          { path: "Area", element: Area },
           { path: "Agent", element: UnitOfMeasurement },
         ],
       },
@@ -51,7 +52,7 @@ export const MenuRoutesConfig = [
         children: [
           { path: "Product Management", element: ProductManagement },
           { path: "Product Company", element: ProductCompany },
-          { path: "Product Group", element: ProductGroup },
+          { path: "Product Group", element: Area },
           { path: "Unit of Measurement", element: UnitOfMeasurement },
         ],
       },

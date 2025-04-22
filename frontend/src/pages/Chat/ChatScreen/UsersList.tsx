@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useGetAllUser } from "../../../api/auth/auth-hook";
 import { FiPenTool, FiSearch } from "react-icons/fi";
+import GroupChatPop from "./GroupChat/GroupChatPop";
 
 const UsersList: React.FC = () => {
     const { data: userData } = useGetAllUser();
@@ -16,7 +17,7 @@ const UsersList: React.FC = () => {
                         {groupClick && (
                             <div className="absolute bg-white p-3 z-50 rounded w-100 h-100 shadow-sm">
                                 <div className="flex flex-col gap-1">
-                                {userData?.map((data: any) => {
+                                {/* {userData?.map((data: any) => {
                                     const isSelected = selectedUserId === data?._id;
 
                                     return (
@@ -36,7 +37,8 @@ const UsersList: React.FC = () => {
                                             <div>{data?.name} </div>
                                         </div>
                                     );
-                                })}
+                                })} */}
+                                <GroupChatPop/>
                                 </div>
                             </div>
                         )}

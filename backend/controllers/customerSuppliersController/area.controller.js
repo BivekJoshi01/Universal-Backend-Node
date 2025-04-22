@@ -26,4 +26,41 @@ const addArea = expressAsyncHandler(async (req, res) => {
   }
 });
 
-module.exports = { addArea };
+const getAllAreas = expressAsyncHandler(async (req, res) => {
+  const areas = await Area.find({});
+
+  if (areas && areas.length > 0) {
+    res.status(200).json(areas);
+  } else {
+    res.status(404);
+    throw new Error("No areas found");
+  }
+});
+
+const getAreasPaginated = expressAsyncHandler(async (req, res) => {
+  const pageSize = Number(req.query.pageSize) || 10;
+  const page = Number(req.query.page) || 1;
+  const keyword = req.query.search
+    ? {
+        $or: [
+          { areaDetail: { $regex: req.query.search, $options: "i" } },
+          { areaShortName: { $regex: req.query.search, $options: "i" } },
+        ],
+      }
+    : {};
+
+  const count = await Area.countDocuments({ ...keyword });
+  const areas = await Area.find({ ...keyword })
+    .limit(pageSize)
+    .skip(pageSize * (page - 1))
+    .sort({ createdAt: -1 });
+
+  res.status(200).json({
+    areas,
+    page,
+    pages: Math.ceil(count / pageSize),
+    total: count,
+  });
+});
+
+module.exports = { addArea, getAllAreas, getAreasPaginated };
