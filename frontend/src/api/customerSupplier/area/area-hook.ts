@@ -1,20 +1,18 @@
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-toastify";
-import { addArea } from "./area-api";
-
-interface RegisterPayload {
-  formData: Record<string, any>;
-}
+import { addArea, getAreaPaginated } from "./area-api";
 
 export const useAddAreaHook = () => {
+  const queryClient = useQueryClient();
   return useMutation({
-    mutationKey: ["register"],
-    mutationFn: async ({ formData }: RegisterPayload): Promise<any> => {
+    mutationKey: ["area"],
+    mutationFn: async ({ formData }: any): Promise<any> => {
       const response = await addArea(formData);
       return response.data;
     },
     onSuccess: () => {
       toast.success("Area added successfully");
+      queryClient.invalidateQueries({ queryKey: ["getAreaPaginated"] });
     },
     onError: (error: any) => {
       const message =
@@ -23,5 +21,15 @@ export const useAddAreaHook = () => {
         "Something went wrong";
       toast.error(message);
     },
+  });
+};
+
+export const useGetAreaPaginated = ({ pageNumber, pageSize, search = "" }: any) => {
+  return useQuery({
+    queryKey: ["getAreaPaginated", pageNumber, pageSize, search],
+    queryFn: () => getAreaPaginated({ pageNumber, pageSize, search }),
+    refetchOnWindowFocus: false,
+    refetchInterval: false,
+    staleTime: 30000,
   });
 };

@@ -39,7 +39,7 @@ const getAllAreas = expressAsyncHandler(async (req, res) => {
 
 const getAreasPaginated = expressAsyncHandler(async (req, res) => {
   const pageSize = Number(req.query.pageSize) || 10;
-  const page = Number(req.query.page) || 1;
+  const pageNumber = Number(req.query.pageNumber) || 1;
   const keyword = req.query.search
     ? {
         $or: [
@@ -52,14 +52,14 @@ const getAreasPaginated = expressAsyncHandler(async (req, res) => {
   const count = await Area.countDocuments({ ...keyword });
   const areas = await Area.find({ ...keyword })
     .limit(pageSize)
-    .skip(pageSize * (page - 1))
+    .skip(pageSize * (pageNumber - 1))
     .sort({ createdAt: -1 });
 
   res.status(200).json({
     areas,
-    page,
+    pageNumber,
     pages: Math.ceil(count / pageSize),
-    total: count,
+    totalElements: count,
   });
 });
 

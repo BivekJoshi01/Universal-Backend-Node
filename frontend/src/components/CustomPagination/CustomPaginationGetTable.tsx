@@ -3,31 +3,36 @@ import React, { useState } from 'react'
 interface PaginationProps {
     totalPages?: number
     currentPage?: number
-    onPageChange?: (page: number) => void
+    totalElements?: number
+    setPageNumber?: any
+    setpageSize?: any
 }
 
 export const CustomPaginationGetTable: React.FC<PaginationProps> = ({
-    totalPages = 11,
-    currentPage = 1,
-    onPageChange = () => { },
+    totalPages = 0,
+    currentPage = 0,
+    totalElements = 0,
+    setPageNumber,
+    setpageSize
 }) => {
     const [page, setPage] = useState(currentPage)
-    const [selectedValue, setSelectedValue] = useState('');
 
     const options = [
-        { value: 'option1', label: 'Option 1' },
-        { value: 'option2', label: 'Option 2' },
-        { value: 'option3', label: 'Option 3' },
+        { value: '10', label: '10' },
+        { value: '20', label: '20' },
+        { value: '50', label: '50' },
+        { value: '100', label: '100' },
+        { value: '200', label: '200' },
     ];
 
     const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-        setSelectedValue(event.target.value);
+        setpageSize(event.target.value)
     };
 
     const handleClick = (newPage: number) => {
         if (newPage >= 1 && newPage <= totalPages) {
             setPage(newPage)
-            onPageChange(newPage)
+            setPageNumber(newPage)
         }
     }
 
@@ -60,7 +65,7 @@ export const CustomPaginationGetTable: React.FC<PaginationProps> = ({
     return (
         <div className='bg-violet-100 mt-4 p-2.5'>
             <div className='flex items-center justify-between'>
-                <div>Total Element: </div>
+                <div>Total Elements: {totalElements}</div>
                 <nav aria-label="Page navigation">
                     <ul className="inline-flex -space-x-px text-sm">
                         <li>
@@ -110,7 +115,6 @@ export const CustomPaginationGetTable: React.FC<PaginationProps> = ({
                 <div>
                     <select
                         id="dropdown"
-                        value={selectedValue}
                         onChange={handleChange}
                         className="w-full p-1 border border-gray-300 rounded-lg focus:outline-none focus:ring-0.5 focus:ring-indigo-500 focus:border-indigo-500 bg-white text-gray-700"
                     >

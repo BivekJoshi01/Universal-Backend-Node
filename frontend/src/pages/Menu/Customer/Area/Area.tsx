@@ -7,76 +7,36 @@ import CustomTable from "../../../../components/CustomTable/CustomTable";
 import Header from "../../../../components/Header/Header";
 import { CustomPaginationGetTable } from "../../../../components/CustomPagination/CustomPaginationGetTable";
 import FilterSearch from "../../../../components/FilterSearch/FilterSearch";
+import { useGetAreaPaginated } from "../../../../api/customerSupplier/area/area-hook";
 
-type Person = {
-  name: {
-    firstName: string;
-    lastName: string;
-  };
-  address: string;
-};
 
 const Area: React.FC = () => {
   const [openModel, setOpenModel] = useState(false);
+  const [pageNumber, setPageNumber] = useState(1);
+  const [pageSize, setpageSize] = useState(10);
 
-  const columns = useMemo<MRT_ColumnDef<Person>[]>(
+
+  const { data: areaData } = useGetAreaPaginated({
+    pageNumber: pageNumber,
+    pageSize: pageSize,
+    search: "",
+  })
+
+  const columns = useMemo<MRT_ColumnDef<any>[]>(
     () => [
       {
-        id:nanoid(),
-        accessorKey: 'name.firstName', //access nested data with dot notation
-        header: 'First Name',
+        id: nanoid(),
+        accessorKey: 'areaShortName',
+        header: 'areaShortName',
       },
       {
-        id:nanoid(),
-        accessorKey: 'name.lastName',
-        header: 'Last Name',
-      },
-      {
-        id:nanoid(),
-        accessorKey: 'address', //normal accessorKey
-        header: 'Address',
+        id: nanoid(),
+        accessorKey: 'areaDetail',
+        header: 'areaDetail',
       },
     ],
     [],
   );
-
-  const data: Person[] = [
-    {
-      name: {
-        firstName: 'John',
-        lastName: 'Doe',
-      },
-      address: '261 Erdman Ford',
-    },
-    {
-      name: {
-        firstName: 'Jane',
-        lastName: 'Doe',
-      },
-      address: '769 Dominic Grove',
-    },
-    {
-      name: {
-        firstName: 'Joe',
-        lastName: 'Doe',
-      },
-      address: '566 Brakus Inlet',
-    },
-    {
-      name: {
-        firstName: 'Kevin',
-        lastName: 'Vandy',
-      },
-      address: '722 Emie Stream',
-    },
-    {
-      name: {
-        firstName: 'Joshua',
-        lastName: 'Rolluffs',
-      },
-      address: '32188 Larkin Turnpike',
-    },
-  ];
 
 
   return (
@@ -93,14 +53,20 @@ const Area: React.FC = () => {
           <AreaForm onClose={() => setOpenModel(false)} />
         </Header>
       </div>
-      <FilterSearch/>
+      <FilterSearch />
       <CustomTable
         columns={columns}
-        data={data}
+        data={areaData?.areas}
         isLoading={false}
         enableRowNumbers
       />
-      <CustomPaginationGetTable/>
+      <CustomPaginationGetTable
+        totalPages={areaData?.pages}
+        currentPage={1}
+        totalElements={areaData?.totalElements}
+        setPageNumber={setPageNumber}
+        setpageSize={setpageSize}
+      />
     </>
   );
 };
