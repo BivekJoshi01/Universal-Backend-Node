@@ -1,3 +1,14 @@
+// import React from 'react'
+
+// const SupplierOtherPartyForm = () => {
+//   return (
+//     <div>SupplierOtherPartyForm</div>
+//   )
+// }
+
+// export default SupplierOtherPartyForm
+
+
 import React from "react";
 import { FieldError, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -5,7 +16,7 @@ import * as yup from "yup";
 import RenderInput from "../../../../components/RenderInput/RenderInput";
 import { FiCamera } from "react-icons/fi";
 import { IoClose } from "react-icons/io5";
-import { useAddCustomerHook } from "../../../../api/customerSupplier/customer/customer-hook";
+import { useAddSupplierHook } from "../../../../api/customerSupplier/supplier/supplier-hook";
 
 const validationSchema = yup.object().shape({
     areaDetail: yup.string().required("Area Detail is required"),
@@ -23,10 +34,10 @@ const inputFields: {
     gridClass?: string;
 }[] = [
         {
-            name: "customerDetail",
+            name: "supplierDetail",
             type: "text",
-            placeholder: "Enter customer name",
-            label: "Customer Name",
+            placeholder: "Enter supplier name",
+            label: "Supplier Name",
             required: true,
             gridClass: "col-span-1",
         },
@@ -63,7 +74,7 @@ const inputFields: {
             gridClass: "col-span-1",
         },
         {
-            name: "isRetailer",
+            name: "isRegular",
             type: "checkbox",
             label: "Is Retailer?",
             required: false,
@@ -94,22 +105,6 @@ const inputFields: {
             gridClass: "col-span-1",
         },
         {
-            name: "area",
-            type: "text",
-            placeholder: "Enter area ID",
-            label: "Area ID",
-            required: true,
-            gridClass: "col-span-1",
-        },
-        {
-            name: "agent",
-            type: "text",
-            placeholder: "Enter area ID",
-            label: "Area ID",
-            required: true,
-            gridClass: "col-span-1",
-        },
-        {
             name: "creditLimit",
             type: "number",
             placeholder: "Enter credit limit",
@@ -121,7 +116,7 @@ const inputFields: {
             name: "type",
             type: "text",
             placeholder: "Enter type",
-            label: "Customer Type",
+            label: "Supplier Type",
             required: true,
             gridClass: "col-span-1",
         },
@@ -146,7 +141,7 @@ interface ProductCompantFormProps {
     onClose: () => void;
 }
 
-const CustomerForm: React.FC<ProductCompantFormProps> = ({ onClose }) => {
+const SupplierOtherPartyForm: React.FC<ProductCompantFormProps> = ({ onClose }) => {
     const {
         register,
         handleSubmit,
@@ -155,7 +150,7 @@ const CustomerForm: React.FC<ProductCompantFormProps> = ({ onClose }) => {
         resolver: yupResolver(validationSchema),
     });
 
-    const { mutate } = useAddCustomerHook();
+    const { mutate } = useAddSupplierHook();
 
 
     const onSubmit = (data: object) => {
@@ -208,4 +203,4 @@ const CustomerForm: React.FC<ProductCompantFormProps> = ({ onClose }) => {
     );
 };
 
-export default CustomerForm;
+export default SupplierOtherPartyForm;

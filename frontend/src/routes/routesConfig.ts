@@ -29,6 +29,7 @@ import Agent from "../pages/Menu/Customer/Agent/Agent";
 import Order from "../pages/Menu/Sales/Order/Order";
 import Sale from "../pages/Menu/Sales/Sale/Sale";
 import Customer from "../pages/Menu/Customer/Customer/Customer";
+import SupplierOtherParty from "../pages/Menu/Customer/SupplierOtherParty/SupplierOtherParty";
 
 export const MenuRoutesConfig = [
   {
@@ -44,7 +45,7 @@ export const MenuRoutesConfig = [
         path: "Customer/Suppliers",
         element: Outlet,
         children: [
-          { path: "Supplier/ Other Party", element: ProductManagement },
+          { path: "Supplier/ Other Party", element: SupplierOtherParty },
           { path: "Customer", element: Customer },
           { path: "Area", element: Area },
           { path: "Agent", element: Agent },

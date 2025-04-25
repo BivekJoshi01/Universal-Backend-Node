@@ -17,7 +17,9 @@ const createCustomer = async (req, res) => {
 const getCustomers = async (req, res) => {
   try {
     const customers = await Customer.find()
-      .populate("areaId", "name"); // assuming Area model has a `name` field
+      .populate("area", "name")
+      .populate("area", "agent"); // assuming Area model has a `name` field
+    // assuming Area model has a `name` field
     res.status(200).json(customers);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -47,5 +49,5 @@ const getCustomerPaginatedPost = expressAsyncHandler(async (req, res) => {
 module.exports = {
   createCustomer,
   getCustomers,
-  getCustomerPaginatedPost
+  getCustomerPaginatedPost,
 };

@@ -15,7 +15,12 @@ const customerSchema = mongoose.Schema(
     email: { type: String, required: true, unique: true },
     phoneNumber: { type: String, required: true },
 
-    areaId: {
+    agent: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Agent",
+      required: true,
+    },
+    area: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Area",
       required: true,

@@ -15,6 +15,11 @@ const {
   getCustomers,
   getCustomerPaginatedPost,
 } = require("../../controllers/customerSuppliersController/customer.controller");
+const {
+  createSupplier,
+  getSuppliers,
+  getSupplierPaginatedPost,
+} = require("../../controllers/customerSuppliersController/supplier.controller");
 
 const router = express.Router();
 
@@ -30,5 +35,8 @@ router.route("/customer/create").post(createCustomer);
 router.route("/customer/getAll").get(getCustomers);
 router.route("/customer/search").post(getCustomerPaginatedPost);
 
+router.route("/supplier/create").post(createSupplier);
+router.route("/supplier/getAll").get(getSuppliers);
+router.route("/supplier/search").post(getSupplierPaginatedPost);
 
 module.exports = router;
