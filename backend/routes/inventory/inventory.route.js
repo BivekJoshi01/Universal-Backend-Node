@@ -4,7 +4,7 @@ const {
   createUnitOfMeasurement,
   getUnitOfMeasurements,
   getUnitOfMeasurementPaginatedPost,
-} = require("../../controllers/inventoryC/unitOfMeasurement.contoller");
+} = require("../../controllers/inventoryC/productC/unitOfMeasurement.contoller");
 
 const router = express.Router();
 

@@ -1,6 +1,6 @@
 const expressAsyncHandler = require("express-async-handler");
-const UnitOfMeasurement = require("../../models/inventory/productModel/unitOfMeasurement.model");
-const { buildSearchConditions } = require("../../config/heplerConditions");
+const UnitOfMeasurement = require("../../../models/inventory/productModel/unitOfMeasurement.model");
+const { buildSearchConditions } = require("../../../config/heplerConditions");
 
 const createUnitOfMeasurement = async (req, res) => {
   try {
