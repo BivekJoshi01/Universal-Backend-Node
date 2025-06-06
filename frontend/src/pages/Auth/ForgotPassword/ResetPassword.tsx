@@ -1,70 +1,124 @@
-import React from 'react'
-import LogoSVG from "../../../assets/Office/GlobeImage.svg";
-import { useResetPasswordHook } from '../../../api/auth/auth-hook';
-import { useForm } from 'react-hook-form';
-import { useParams } from 'react-router';
+import React, { useState } from "react";
+import { useResetPasswordHook } from "../../../api/auth/auth-hook";
+import { useForm } from "react-hook-form";
+import { useParams } from "react-router";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
+
+type FormData = {
+  password: string;
+  confirmPassword: string;
+};
 
 const ResetPassword: React.FC = () => {
-    const { id } = useParams();
+  const { id } = useParams();
 
-    const {
-        register,
-        handleSubmit,
-        formState: { errors },
-    } = useForm<any>();
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
-    const { mutate } = useResetPasswordHook();
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm<FormData>({
+    mode: "onBlur",
+  });
 
-    const onSubmit = (data: FormData) => {
+  const { mutate } = useResetPasswordHook();
 
-        mutate({
-            formData: {
-                ...data,
-                id,
-            }
-        });
-    };
-    return (
-        <div className="bg-[#d7e2f7] shadow-2xl rounded-xl w-full max-w-md px-8 py-10" style={{
-            backgroundImage: `url(${LogoSVG})`,
-            backgroundRepeat: "no-repeat",
-        }}>
-            <h1 className="text-3xl font-extrabold text-center text-blue-700 mb-2">
-                Universal Stationery Suppliers
-            </h1>      <h2 className="text-xl font-semibold text-center text-gray-700 mb-8">
-                Welcome Back
-            </h2>
-            <form autoComplete="off" onSubmit={handleSubmit(onSubmit)}>
-                <div className="mb-5">
-                    <label
-                        htmlFor="password"
-                        className="block text-sm font-medium text-gray-700"
-                    >
-                        password <span className="text-red-600">*</span>
-                    </label>
-                    <input
-                        type="text"
-                        id="password"
-                        // name="login_password"
-                        autoComplete="off"
-                        {...register("password", { required: "Please enter password" })}
-                        className={`w-full mt-2 px-4 py-2 border rounded-lg shadow-sm focus:ring-2 focus:ring-blue-400 focus:outline-none ${errors.password ? "border-red-500" : "border-gray-300"
-                            } text-black`}
-                        placeholder="Enter your password"
-                    />
-                    {/* {errors.password && (
-            <p className="text-red-500 text-sm mt-1">{errors.password.message}</p>
-          )} */}
-                </div>
-                <button
-                    type="submit"
-                    className="w-full bg-blue-600 hover:bg-blue-700 transition duration-200 text-white font-semibold py-2 rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-blue-400"
-                >
-                    Send
-                </button>
-            </form>
+  const onSubmit = (data: FormData) => {
+    mutate({
+      formData: {
+        ...data,
+        id,
+      },
+    });
+  };
+
+  const passwordValue = watch("password", "");
+
+  return (
+   <div style={{ width: "100%" }}>
+      <h2 className="text-xl font-semibold text-center mb-8 text-white/90">
+        Change Password
+      </h2>
+
+      <form autoComplete="off" onSubmit={handleSubmit(onSubmit)}>
+        {/* Password */}
+        <div className="mb-5 relative">
+          <label
+            htmlFor="password"
+            className="block text-sm font-medium text-white/90 text-left"
+          >
+            Password <span className="text-red-600">*</span>
+          </label>
+          <input
+            type={showPassword ? "text" : "password"}
+            id="password"
+            autoComplete="new-password"
+            {...register("password", { required: "Please enter password" })}
+            className={`w-full mt-2 px-4 py-2 border rounded-lg shadow-sm pr-10 focus:ring-2 focus:ring-blue-400 focus:outline-none ${
+              errors.password ? "border-red-500" : "border-white/40"
+            } bg-white/20 text-black placeholder-gray-400`}
+            placeholder="Enter your password"
+          />
+          <span
+            className="absolute right-3 top-[42px] text-gray-300 cursor-pointer"
+            onClick={() => setShowPassword(!showPassword)}
+          >
+            {showPassword ? <FaEyeSlash /> : <FaEye />}
+          </span>
+          {errors.password && (
+            <p className="text-red-500 text-sm mt-1 text-left">
+              {errors.password.message}
+            </p>
+          )}
         </div>
-    )
-}
 
-export default ResetPassword
+        {/* Confirm Password */}
+        <div className="mb-5 relative">
+          <label
+            htmlFor="confirmPassword"
+            className="block text-sm font-medium text-white/90 text-left"
+          >
+            Confirm Password <span className="text-red-600">*</span>
+          </label>
+          <input
+            type={showConfirmPassword ? "text" : "password"}
+            id="confirmPassword"
+            autoComplete="new-password"
+            {...register("confirmPassword", {
+              required: "Please confirm your password",
+              validate: (value) =>
+                value === passwordValue || "Passwords do not match",
+            })}
+            className={`w-full mt-2 px-4 py-2 border rounded-lg shadow-sm pr-10 focus:ring-2 focus:ring-blue-400 focus:outline-none ${
+              errors.confirmPassword ? "border-red-500" : "border-white/40"
+            } bg-white/20 text-black placeholder-gray-400`}
+            placeholder="Confirm your password"
+          />
+          <span
+            className="absolute right-3 top-[42px] text-gray-300 cursor-pointer"
+            onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+          >
+            {showConfirmPassword ? <FaEyeSlash /> : <FaEye />}
+          </span>
+          {errors.confirmPassword && (
+            <p className="text-red-500 text-sm mt-1 text-left">
+              {errors.confirmPassword.message}
+            </p>
+          )}
+        </div>
+
+        <button
+          type="submit"
+          className="w-full bg-blue-600 hover:bg-blue-700 transition duration-200 text-white font-semibold py-2 rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-blue-400"
+        >
+          Change Password
+        </button>
+      </form>
+    </div>
+  );
+};
+
+export default ResetPassword;

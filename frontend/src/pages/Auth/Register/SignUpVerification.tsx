@@ -1,5 +1,4 @@
 import React, { useRef } from "react";
-import LogoSVG from "../../../assets/Office/GlobeImage.svg";
 import { useVerifyEmailHook } from "../../../api/auth/auth-hook";
 
 const SignUpVerification = () => {
@@ -34,16 +33,8 @@ const SignUpVerification = () => {
   };
 
   return (
-    <div
-      className="bg-[#d7e2f7] shadow-2xl rounded-xl w-full max-w-md px-8 py-10"
-      style={{
-        backgroundImage: `url(${LogoSVG})`,
-        backgroundRepeat: "no-repeat",
-        backgroundPosition: "center top 1rem",
-        backgroundSize: "80px",
-      }}
-    >
-      <h2 className="text-xl font-semibold text-center mb-6">
+    <div style={{ width: "100%" }}>
+      <h2 className="text-xl font-semibold text-center mb-6 text-white/90">
         Enter 6-digit Verification Code
       </h2>
 
@@ -56,7 +47,7 @@ const SignUpVerification = () => {
               type="text"
               inputMode="numeric"
               maxLength={1}
-              className="w-12 h-12 text-center text-lg font-medium rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white shadow-sm"
+              className="w-12 h-12 text-center text-lg font-medium rounded-md border border-white/40 bg-white/20 placeholder-gray-300 text-black shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
               ref={(el) => {
                 inputsRef.current[i] = el!;
               }}
@@ -69,7 +60,7 @@ const SignUpVerification = () => {
       <button
         type="button"
         onClick={handleSubmit}
-        className="w-full py-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-md shadow-md transition"
+        className="w-full py-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-md shadow-md transition focus:outline-none focus:ring-2 focus:ring-blue-400"
       >
         Verify
       </button>
