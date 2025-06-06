@@ -15,6 +15,22 @@ export const verifyEmail = async (formData: object) => {
   return data;
 };
 
+export const forgotPassword = async (formData: object) => {
+  const { data } = await axiosInstance.post(
+    "api/user/forgot-password",
+    formData
+  );
+  return data;
+};
+
+export const resetPassword = async (formData: any) => {
+  const { data } = await axiosInstance.post(
+    `api/user/reset-password/${formData?.id}`,
+    formData
+  );
+  return data;
+};
+
 export const logout = async () => {
   const { data } = await axiosInstance.get("api/user/logout");
   return data;

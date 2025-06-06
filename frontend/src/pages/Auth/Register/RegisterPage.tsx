@@ -3,10 +3,9 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { useRegisterHook } from "../../../api/auth/auth-hook";
-import { useDispatch } from "react-redux";
-import { setCurrentPage } from "../../../redux/reducer/navigationSlice";
 import { FaEye, FaEyeSlash, FaCheckCircle, FaTimesCircle } from "react-icons/fa";
 import LogoSVG from "../../../assets/Office/GlobeImage.svg";
+import { useNavigate } from "react-router";
 
 type FormData = {
   name: string;
@@ -47,7 +46,7 @@ const schema = yup.object().shape({
 });
 
 const RegisterPage: React.FC = () => {
-  const dispatch = useDispatch();
+  const navigate = useNavigate()
   const { mutate } = useRegisterHook();
 
   const [showPassword, setShowPassword] = useState(false);
@@ -202,7 +201,7 @@ const RegisterPage: React.FC = () => {
           <button
             type="button"
             className="text-sm text-blue-500 hover:underline focus:outline-none"
-            onClick={() => dispatch(setCurrentPage("Login"))}
+            onClick={() => navigate("/auth/login")}
           >
             Already have an Account? Login
           </button>

@@ -1,10 +1,12 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
 import {
   authenticate,
+  forgotPassword,
   getAllUsers,
   getLoggedUserData,
   logout,
   register,
+  resetPassword,
   verifyEmail,
 } from "./auth-api";
 import { toast } from "react-toastify";
@@ -88,7 +90,7 @@ export const useRegisterHook = () => {
     onSuccess: () => {
       dispatch(setCurrentPage("Login"));
       toast.success("Sign Up user Successful");
-      navigate("/verify-email");
+      navigate("/auth/verify-email");
     },
     onError: (error: any) => {
       const message =
@@ -124,6 +126,58 @@ export const useVerifyEmailHook = () => {
         error?.response?.data?.message ||
         error.message ||
         "Email Verified Failed";
+      toast.error(message);
+    },
+  });
+};
+
+export const useForgotPasswordHook = () => {
+  const navigate = useNavigate();
+
+  return useMutation({
+    mutationKey: ["forgotPassword"],
+    mutationFn: async ({ formData }: any) => {
+      try {
+        const response = await forgotPassword(formData);
+        return response;
+      } catch (error: any) {
+        throw error;
+      }
+    },
+    onSuccess: (response) => {
+      // setLoggedUserId(response?.user?._id);
+      // navigate("Menu/Home");
+      // toast.success("Login Successful");
+    },
+    onError: (error: any) => {
+      const message =
+        error?.response?.data?.message || error.message || "Reset Failed";
+      toast.error(message);
+    },
+  });
+};
+
+export const useResetPasswordHook = () => {
+  const navigate = useNavigate();
+
+  return useMutation({
+    mutationKey: ["resetPassword"],
+    mutationFn: async ({ formData }: any) => {
+      try {
+        const response = await resetPassword(formData);
+        return response;
+      } catch (error: any) {
+        throw error;
+      }
+    },
+    onSuccess: (response) => {
+      // setLoggedUserId(response?.user?._id);
+      // navigate("Menu/Home");
+      // toast.success("Login Successful");
+    },
+    onError: (error: any) => {
+      const message =
+        error?.response?.data?.message || error.message || "Reset Password Failed";
       toast.error(message);
     },
   });
