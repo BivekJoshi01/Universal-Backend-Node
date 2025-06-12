@@ -31,11 +31,24 @@ import Sale from "../pages/Menu/Sales/Sale/Sale";
 import Customer from "../pages/Menu/Customer/Customer/Customer";
 import SupplierOtherParty from "../pages/Menu/Customer/SupplierOtherParty/SupplierOtherParty";
 
+import Profile from "../pages/Auth/Profile/Profile";
+import SelfChangePassword from "../pages/Auth/SelfChangePassword/SelfChangePassword";
+
 export const MenuRoutesConfig = [
   {
     path: "Menu",
     element: Outlet,
     headChildren: [
+      {
+        path: "Profile",
+        element: Profile,
+        Children: [],
+      },
+      {
+        path: "Change Password",
+        element: SelfChangePassword,
+        Children: [],
+      },
       {
         path: "Home",
         element: AdminDashboard,

@@ -1,45 +1,74 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 const ORIGINAL_DATA = [
-  { id: 1, title: "Pen", img: "http://image.png" },
-  { id: 2, title: "Copy", img: "http://image.png" },
-  { id: 3, title: "Pencil", img: "http://image.png" },
-  { id: 4, title: "Dot", img: "http://image.png" },
-  { id: 5, title: "Eraser", img: "http://image.png" },
-  { id: 6, title: "Game", img: "http://image.png" },
-  { id: 7, title: "MOMO", img: "http://image.png" },
+  {
+    id: 1,
+    title: "Pen",
+    img: "https://imgs.search.brave.com/fCkJjgJNc17_piMZ0plr1oG7SswIfOkMss_BFLDX1zQ/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9pbWFn/ZXMucGV4ZWxzLmNv/bS9waG90b3MvMTQ1/MTY0OS9wZXhlbHMt/cGhvdG8tMTQ1MTY0/OS5qcGVnP2F1dG89/Y29tcHJlc3MmY3M9/dGlueXNyZ2ImZHBy/PTEmdz01MDA",
+  },
+  {
+    id: 2,
+    title: "Copy",
+    img: "https://imgs.search.brave.com/fCkJjgJNc17_piMZ0plr1oG7SswIfOkMss_BFLDX1zQ/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9pbWFn/ZXMucGV4ZWxzLmNv/bS9waG90b3MvMTQ1/MTY0OS9wZXhlbHMt/cGhvdG8tMTQ1MTY0/OS5qcGVnP2F1dG89/Y29tcHJlc3MmY3M9/dGlueXNyZ2ImZHBy/PTEmdz01MDA",
+  },
+  {
+    id: 3,
+    title: "Pencil",
+    img: "https://imgs.search.brave.com/fCkJjgJNc17_piMZ0plr1oG7SswIfOkMss_BFLDX1zQ/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9pbWFn/ZXMucGV4ZWxzLmNv/bS9waG90b3MvMTQ1/MTY0OS9wZXhlbHMt/cGhvdG8tMTQ1MTY0/OS5qcGVnP2F1dG89/Y29tcHJlc3MmY3M9/dGlueXNyZ2ImZHBy/PTEmdz01MDA",
+  },
+  {
+    id: 4,
+    title: "Dot",
+    img: "https://imgs.search.brave.com/fCkJjgJNc17_piMZ0plr1oG7SswIfOkMss_BFLDX1zQ/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9pbWFn/ZXMucGV4ZWxzLmNv/bS9waG90b3MvMTQ1/MTY0OS9wZXhlbHMt/cGhvdG8tMTQ1MTY0/OS5qcGVnP2F1dG89/Y29tcHJlc3MmY3M9/dGlueXNyZ2ImZHBy/PTEmdz01MDA",
+  },
+  {
+    id: 5,
+    title: "Eraser",
+    img: "https://imgs.search.brave.com/fCkJjgJNc17_piMZ0plr1oG7SswIfOkMss_BFLDX1zQ/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9pbWFn/ZXMucGV4ZWxzLmNv/bS9waG90b3MvMTQ1/MTY0OS9wZXhlbHMt/cGhvdG8tMTQ1MTY0/OS5qcGVnP2F1dG89/Y29tcHJlc3MmY3M9/dGlueXNyZ2ImZHBy/PTEmdz01MDA",
+  },
+  {
+    id: 6,
+    title: "Game",
+    img: "https://imgs.search.brave.com/fCkJjgJNc17_piMZ0plr1oG7SswIfOkMss_BFLDX1zQ/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9pbWFn/ZXMucGV4ZWxzLmNv/bS9waG90b3MvMTQ1/MTY0OS9wZXhlbHMt/cGhvdG8tMTQ1MTY0/OS5qcGVnP2F1dG89/Y29tcHJlc3MmY3M9/dGlueXNyZ2ImZHBy/PTEmdz01MDA",
+  },
+  {
+    id: 7,
+    title: "MOMO",
+    img: "https://imgs.search.brave.com/fCkJjgJNc17_piMZ0plr1oG7SswIfOkMss_BFLDX1zQ/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9pbWFn/ZXMucGV4ZWxzLmNv/bS9waG90b3MvMTQ1/MTY0OS9wZXhlbHMt/cGhvdG8tMTQ1MTY0/OS5qcGVnP2F1dG89/Y29tcHJlc3MmY3M9/dGlueXNyZ2ImZHBy/PTEmdz01MDA",
+  },
 ];
 
-const VISIBLE_COUNT = 7; // Should be odd to center one item
-const CENTER_INDEX = Math.floor(VISIBLE_COUNT / 2);
+const getVisibleCount = (width: number) => {
+  if (width < 640) return 3;
+  if (width < 1024) return 5;
+  return 7;
+};
 
-const getHeightByIndex = (index: number) => {
-  const distanceFromCenter = Math.abs(index - CENTER_INDEX);
-
-  switch (distanceFromCenter) {
-    case 0:
-      return 600;
-    case 1:
-      return 500;
-    case 2:
-      return 400;
-    default:
-      return 300;
-  }
+const getHeightByDistance = (distance: number, screenSize: number) => {
+  if (screenSize < 640) return [150, 110, 90][distance] ?? 70;
+  if (screenSize < 1024) return [250, 200, 160][distance] ?? 130;
+  return [600, 500, 400][distance] ?? 300;
 };
 
 const Products: React.FC = () => {
   const [startIndex, setStartIndex] = useState(0);
+  const [screenWidth, setScreenWidth] = useState(window.innerWidth);
+
+  const visibleCount = getVisibleCount(screenWidth);
+  const centerIndex = Math.floor(visibleCount / 2);
+
+  useEffect(() => {
+    const handleResize = () => setScreenWidth(window.innerWidth);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   const getRotatedItems = () => {
-    const data = [...ORIGINAL_DATA];
-    const rotated: typeof ORIGINAL_DATA = [];
-
-    for (let i = 0; i < VISIBLE_COUNT; i++) {
-      const index = (startIndex + i) % data.length;
-      rotated.push(data[index]);
+    const rotated = [];
+    for (let i = 0; i < visibleCount; i++) {
+      const index = (startIndex + i) % ORIGINAL_DATA.length;
+      rotated.push(ORIGINAL_DATA[index]);
     }
-
     return rotated;
   };
 
@@ -48,57 +77,71 @@ const Products: React.FC = () => {
   };
 
   const handlePrev = () => {
-    setStartIndex((prev) =>
-      (prev - 1 + ORIGINAL_DATA.length) % ORIGINAL_DATA.length
+    setStartIndex(
+      (prev) => (prev - 1 + ORIGINAL_DATA.length) % ORIGINAL_DATA.length
     );
   };
 
   const items = getRotatedItems();
 
   return (
-    <div className="w-full flex flex-col items-center">
-      {/* Controls */}
-      <div className="mb-4 flex gap-4">
-        <button
-          onClick={handlePrev}
-          className="bg-gray-300 hover:bg-gray-400 px-4 py-1 rounded"
-        >
-          Prev
-        </button>
-        <button
-          onClick={handleNext}
-          className="bg-gray-300 hover:bg-gray-400 px-4 py-1 rounded"
-        >
-          Next
-        </button>
-      </div>
-
-      {/* Carousel */}
-      <div className="flex gap-2.5 justify-center items-center">
+    <div className="w-full flex flex-col items-center px-2">
+      <div className="flex justify-center items-center gap-2.5 w-full">
         {items.map((item, index) => {
-          const height = getHeightByIndex(index);
-          const isActive = index === CENTER_INDEX;
+          const distance = Math.abs(index - centerIndex);
+          const height = getHeightByDistance(distance, screenWidth);
+          const isActive = index === centerIndex;
+
+          const width =
+            screenWidth < 640
+              ? isActive
+                ? "w-[140px]"
+                : "w-[40px]"
+              : screenWidth < 1024
+                ? isActive
+                  ? "w-[200px]"
+                  : "w-[70px]"
+                : isActive
+                  ? "w-[500px]"
+                  : "w-[100px]";
+
+          const handleClick = () => {
+            if (index < centerIndex) handlePrev();
+            else if (index > centerIndex) handleNext();
+          };
 
           return (
             <div
               key={item.id}
-              className={`rounded-xl bg-blue-600 text-white transition-all duration-300 flex items-center justify-center ${
-                isActive ? "w-[500px]" : "w-[100px]"
-              }`}
+              className={`rounded-xl bg-white/8 backdrop-blur-xl text-white transition-all duration-300 flex items-center justify-center shrink-0 cursor-pointer ${!isActive ? "hover:bg-blue-700" : ""
+                } ${width}`}
               style={{ height }}
+              onClick={handleClick}
             >
               {isActive ? (
-                <div className="flex flex-col items-center justify-center">
-                  <img
-                    src={item.img}
-                    alt={item.title}
-                    className="w-24 h-24 object-contain mb-4"
-                  />
-                  <h3 className="text-xl font-semibold">{item.title}</h3>
-                  <span className="text-lg mt-2">#{item.id}</span>
+                <div className="w-full h-full flex flex-col items-center justify-center p-2">
+                  <div className="w-full h-[100%]">
+                    <img
+                      src={item.img}
+                      alt={item.title}
+                      className="w-full h-full"
+                    />
+                  </div>
+                  <h3 className="text-base sm:text-lg md:text-xl font-semibold text-center mt-2">
+                    {item.title}
+                  </h3>
+                  <span className="text-xs sm:text-sm md:text-base mt-1">#{item.id}</span>
                 </div>
+
               ) : (
-                <span className="transform rotate-[-90deg] text-sm font-medium">
+                <span
+                  className={`transform rotate-[-90deg] text-center ${screenWidth < 640
+                      ? "text-[10px]"
+                      : screenWidth < 1024
+                        ? "text-xs"
+                        : "text-sm"
+                    } font-medium`}
+                >
                   {item.title}
                 </span>
               )}

@@ -13,7 +13,7 @@ import { toast } from "react-toastify";
 import { useNavigate } from "react-router";
 import { useDispatch } from "react-redux";
 import { setCurrentPage } from "../../redux/reducer/navigationSlice";
-import { setLoggedUserId } from "../../utils/cookieHelper";
+import { setLoggedUserId, setLoggedUserRole } from "../../utils/cookieHelper";
 
 interface LoginFormData {
   email: string;
@@ -59,6 +59,7 @@ export const useAuthHook = () => {
     },
     onSuccess: (response) => {
       setLoggedUserId(response?.user?._id);
+      setLoggedUserRole(response?.user?.role);
       if (response?.user?.role === "CUSTOMER") {
         navigate("/User/Home");
       } else {
@@ -123,9 +124,8 @@ export const useVerifyEmailHook = () => {
       }
     },
     onSuccess: (response) => {
-        console.log("🚀 ~ useVerifyEmailHook ~ response:", response)
-
       setLoggedUserId(response?.user?._id);
+      setLoggedUserRole(response?.user?.role);
       if (response?.user?.role === "CUSTOMER") {
         navigate("/User/Home");
       } else {

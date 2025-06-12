@@ -12,12 +12,18 @@ import Agent from "../pages/Menu/Customer/Agent/Agent";
 import Customer from "../pages/Menu/Customer/Customer/Customer";
 import SupplierOtherParty from "../pages/Menu/Customer/SupplierOtherParty/SupplierOtherParty";
 import UserLandingPage from "../pages/User/UserLandingPage";
+import CustomerProfile from "../pages/Auth/Profile/CustomerProfile";
 
 export const UserRoutesConfig = [
   {
     path: "User",
     element: Outlet,
     headChildren: [
+      {
+        path: "Profile",
+        element: CustomerProfile,
+        Children: [],
+      },
       {
         path: "Home",
         element: UserLandingPage,
@@ -42,7 +48,7 @@ export const UserRoutesConfig = [
           { path: "Product Group", element: ProductGroup },
           { path: "Unit of Measurement", element: UnitOfMeasurement },
         ],
-      }
+      },
     ],
   },
 ];

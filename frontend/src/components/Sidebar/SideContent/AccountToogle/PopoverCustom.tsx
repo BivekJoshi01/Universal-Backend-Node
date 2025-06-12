@@ -1,19 +1,32 @@
 import React from "react";
 import { FiArrowDownRight, FiKey, FiUser } from "react-icons/fi";
 import { useLogoutHook } from "../../../../api/auth/auth-hook";
+import { useNavigate } from "react-router";
 
 interface PopoverCustomProps {
   isPopoverVisible: boolean;
+  onClose: () => void;
 }
 
-const PopoverCustom: React.FC<PopoverCustomProps> = ({ isPopoverVisible }) => {
+const PopoverCustom: React.FC<PopoverCustomProps> = ({ isPopoverVisible, onClose }) => {
   const { mutate: logout } = useLogoutHook();
+  const navigate = useNavigate();
 
-  const handleProfile = () => { };
-  const handleChangePassword = () => { };
+  const handleProfile = () => {
+    navigate("/Menu/Profile");
+    onClose();
+  };
+
+  const handleChangePassword = () => {
+    navigate("/Menu/Change Password");
+    onClose();
+  };
+
   const handleLogout = () => {
     logout();
+    onClose();
   };
+
   return (
     <div className="absolute top-12 right-1 z-[100]">
       {isPopoverVisible && (
@@ -28,7 +41,6 @@ const PopoverCustom: React.FC<PopoverCustomProps> = ({ isPopoverVisible }) => {
             </h3>
           </div>
 
-          {/* Menu Items */}
           <div
             onClick={handleProfile}
             className="px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer flex items-center gap-2"
@@ -36,6 +48,7 @@ const PopoverCustom: React.FC<PopoverCustomProps> = ({ isPopoverVisible }) => {
             <FiUser className="h-5 w-5 text-gray-500 dark:text-gray-300" />
             <span>Profile</span>
           </div>
+
           <div
             onClick={handleChangePassword}
             className="px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer flex items-center gap-2"
@@ -43,6 +56,7 @@ const PopoverCustom: React.FC<PopoverCustomProps> = ({ isPopoverVisible }) => {
             <FiKey className="h-5 w-5 text-gray-500 dark:text-gray-300" />
             <span>Change Password</span>
           </div>
+
           <div
             onClick={handleLogout}
             className="px-4 py-2 hover:bg-red-100 dark:hover:bg-red-900 cursor-pointer flex items-center gap-2 text-red-600 dark:text-red-400"

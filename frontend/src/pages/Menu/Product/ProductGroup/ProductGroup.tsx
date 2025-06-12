@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import Header from "../../../../components/Header/Header";
 import { FiPlus } from "react-icons/fi";
 import ProductGroupForm from "./ProductGroupForm";
-// import PopoverCustom from "../../../../components/Sidebar/SideContent/AccountToogle/PopoverCustom";
 
 const ProductGroup: React.FC = () => {
   const [openModel, setOpenModel] = useState(false);
@@ -19,7 +18,6 @@ const ProductGroup: React.FC = () => {
       >
         <ProductGroupForm />
       </Header>
-      {/* <PopoverCustom/> */}
     </div>
   );
 };

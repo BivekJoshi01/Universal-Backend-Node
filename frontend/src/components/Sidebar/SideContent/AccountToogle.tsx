@@ -45,7 +45,7 @@ const AccountToogle: React.FC = () => {
                     </div>
                     <BsChevronExpand className='text-xs ml-auto mr-2' />
                 </button>
-                <PopoverCustom isPopoverVisible={isPopoverVisible} />
+                <PopoverCustom isPopoverVisible={isPopoverVisible} onClose={() => setPopoverVisible(false)} />
             </div>
         </div>
     );
