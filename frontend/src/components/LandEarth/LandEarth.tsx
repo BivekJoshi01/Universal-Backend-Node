@@ -49,9 +49,6 @@ const LandEarth: React.FC = () => {
         case "Partners":
             targetPosition = PartnerPosition;
             break;
-        case "Login":
-            targetPosition = ProductPosition;
-            break;
         default:
             targetPosition = DefaultPosition;
             break;

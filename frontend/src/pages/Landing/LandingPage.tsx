@@ -5,20 +5,19 @@ import { setCurrentPage } from "../../redux/reducer/navigationSlice";
 import { FiLogIn, FiMenu } from "react-icons/fi";
 import { RootState } from "../../redux/store";
 import AboutUs from "./AboutUs";
-import LoginPage from "../Auth/Login/LoginPage";
 import Products from "./Products";
 import Partners from "./Partners";
 import Testimonials from "./Testimonials";
 import Popover from "@mui/material/Popover";
-import RegisterPage from "../Auth/Register/RegisterPage";
+import { useNavigate } from "react-router";
 
 const LandingPage: React.FC = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const currentPage = useSelector(
     (state: RootState) => state.navigation.currentPage
   );
 
-  // const [isOpen, setIsOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
   const [isOpen, setIsOpen] = useState(false);
 
@@ -47,10 +46,6 @@ const LandingPage: React.FC = () => {
         return <Partners />;
       case "Testimonials":
         return <Testimonials />;
-      case "Login":
-        return <LoginPage />;
-      case "SignUp":
-        return <RegisterPage />;
       case "Home":
       default:
         return (
@@ -72,7 +67,7 @@ const LandingPage: React.FC = () => {
             </p>
             <button
               className="mt-6 px-8 py-3 text-lg font-semibold text-white bg-blue-600 rounded-full shadow-lg hover:bg-blue-500 transition-all duration-300"
-              onClick={() => handleNavigation("SignUp")}
+              onClick={() => navigate("/auth/register")}
             >
               Scale with Us!
             </button>
@@ -157,11 +152,10 @@ const LandingPage: React.FC = () => {
         )}
       </div>
 
-      {/* Bottom Right - Login & Powered By */}
       <div className="absolute bottom-5 right-5 text-white text-right">
         <button
           className="p-3 rounded-full bg-gray-800 hover:bg-gray-700 shadow-lg"
-          onClick={() => handleNavigation("Login")}
+          onClick={() => navigate('/auth/login')}
         >
           <FiLogIn size={24} />
         </button>

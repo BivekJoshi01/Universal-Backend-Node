@@ -1,5 +1,8 @@
 import React from "react";
 import { UseFormRegister, FieldError } from "react-hook-form";
+import { Input } from "../ui/input";
+import { Label } from "../ui/label";
+import { AutocompleteSelectFeild } from "../ui/autoCompleteSelectFeild";
 
 type DropdownOption = {
   label: string;
@@ -14,6 +17,7 @@ interface RenderInputProps {
   | "textarea"
   | "email"
   | "dropdown"
+  | "autoCompleteSelectFeild"
   | "password"
   | "date"
   | "checkbox";
@@ -38,7 +42,6 @@ const RenderInput: React.FC<RenderInputProps> = ({
   const baseClass =
     "w-full p-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm";
 
-
   const renderField = () => {
     switch (fieldType) {
       case "text":
@@ -47,15 +50,12 @@ const RenderInput: React.FC<RenderInputProps> = ({
       case "password":
       case "date":
         return (
-          <>
-            <div>{label}{" "}{required && <span className="text-red-500 text-sm">*</span>}</div>
-            <input
-              type={fieldType}
-              {...register(name)}
-              placeholder={placeholder}
-              className={baseClass}
-            />
-          </>
+          <Input
+            type={fieldType}
+            id="email"
+            placeholder={placeholder}
+            {...register(name)}
+          />
         );
 
       case "textarea":
@@ -69,7 +69,10 @@ const RenderInput: React.FC<RenderInputProps> = ({
             />
           </>
         );
-
+      case "autoCompleteSelectFeild":
+        return (
+          <AutocompleteSelectFeild placeholder="Slelct Highter" />
+        );
       case "dropdown":
         return (
           <>
@@ -90,7 +93,6 @@ const RenderInput: React.FC<RenderInputProps> = ({
               ))}
             </select>
           </>
-
         );
 
       case "checkbox":
@@ -111,7 +113,8 @@ const RenderInput: React.FC<RenderInputProps> = ({
   };
 
   return (
-    <div className="mb-1 px-2">
+    <div className="grid w-full max-w-sm items-center gap-2 px-2">
+      <Label htmlFor="email">{label}</Label>
       {renderField()}
       {error && <p className="text-red-500 text-sm">{error.message}</p>}
     </div>

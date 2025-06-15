@@ -16,7 +16,7 @@ type UserData = {
 
 const User: React.FC = () => {
 
-    const { data } = useGetAllUser();
+    const { data, isPending } = useGetAllUser();
 
 
     const columns = useMemo<MRT_ColumnDef<UserData>[]>(
@@ -50,8 +50,8 @@ const User: React.FC = () => {
             </Header>
             <CustomTable
                 columns={columns}
-                data={data}
-                isLoading={false}
+                data={data?.users}
+                isLoading={isPending}
                 enableRowNumbers
             />
         </div>

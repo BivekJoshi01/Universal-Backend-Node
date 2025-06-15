@@ -6,7 +6,7 @@ const Plan:React.FC = () => {
             <div className='flex items-center justify-between'>
                 <div>
                     <p className='font-bold'>Enterprice</p>
-                    <p className='text-stone-500'>Pay as you go</p>
+                    <p className='text-stone-500'>Need Help?</p>
                 </div>
                 <button className='px-2 py-1.5 font-medium bg-stone-200 hover:bg-stone-300 transition-colors rounded'>
                     Support

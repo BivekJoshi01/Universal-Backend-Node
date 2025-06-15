@@ -2,7 +2,7 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router";
 import { useAuthHook } from "../../../api/auth/auth-hook";
-import LogoSVG from "../../../assets/Office/GlobeImage.svg";
+import LoadingButton from "../../../components/Button/LoadingButton";
 
 type FormData = {
   email: string;
@@ -17,7 +17,7 @@ const LoginPage: React.FC = () => {
     formState: { errors },
   } = useForm<FormData>();
 
-  const { mutate } = useAuthHook();
+  const { mutate, isPending } = useAuthHook();
 
   const onSubmit = (data: FormData) => {
     console.log("Form Data:", data);
@@ -36,65 +36,55 @@ const LoginPage: React.FC = () => {
   };
 
   return (
-    <div className="bg-[#d7e2f7] shadow-2xl rounded-xl w-full max-w-md px-8 py-10" style={{
-      backgroundImage: `url(${LogoSVG})`,
-      backgroundRepeat:"no-repeat",
-    }}>
-      <h1 className="text-3xl font-extrabold text-center text-blue-700 mb-2">
-        Universal Stationery Suppliers
-      </h1>
-      <h2 className="text-xl font-semibold text-center text-gray-700 mb-8">
+    <div style={{ width: "100%" }}>
+      <h2 className="text-xl font-semibold text-center mb-8 text-white/90">
         Welcome Back
       </h2>
 
       <form autoComplete="off" onSubmit={handleSubmit(onSubmit)}>
         {/* Email Field */}
-        <div className="mb-5">
-          <label
-            htmlFor="email"
-            className="block text-sm font-medium text-gray-700"
-          >
-            Email <span className="text-red-600">*</span>
+        <div className="mb-5 text-left">
+          <label htmlFor="email" className="block text-sm font-medium text-white/90">
+            Email <span className="text-red-500">*</span>
           </label>
           <input
             type="text"
             id="email"
-            // name="login_email"
             autoComplete="off"
             {...register("email", { required: "Please enter Email" })}
-            className={`w-full mt-2 px-4 py-2 border rounded-lg shadow-sm focus:ring-2 focus:ring-blue-400 focus:outline-none ${errors.email ? "border-red-500" : "border-gray-300"
-              } text-black`}
+            className={`w-full mt-2 px-4 py-2 rounded-lg shadow-sm
+          bg-white/20 placeholder-gray-300
+          border ${errors.email ? "border-red-500" : "border-white/40"}
+          text-white
+          focus:outline-none focus:ring-2 focus:ring-blue-400
+          transition-colors`}
             placeholder="Enter your email"
           />
           {errors.email && (
-            <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>
+            <p className="text-red-500 text-sm mt-1 text-left">{errors.email.message}</p>
           )}
         </div>
 
         {/* Password Field */}
-        <div className="mb-4">
-          <label
-            htmlFor="password"
-            className="block text-sm font-medium text-gray-700"
-          >
-            Password <span className="text-red-600">*</span>
+        <div className="mb-4 text-left">
+          <label htmlFor="password" className="block text-sm font-medium text-white/90">
+            Password <span className="text-red-500">*</span>
           </label>
           <input
             type="password"
             id="password"
-            // name="login_password"
             autoComplete="new-password"
-            {...register("password", {
-              required: "Please enter your password",
-            })}
-            className={`w-full mt-2 px-4 py-2 border rounded-lg shadow-sm focus:ring-2 focus:ring-blue-400 focus:outline-none ${errors.password ? "border-red-500" : "border-gray-300"
-              } text-black`}
+            {...register("password", { required: "Please enter your password" })}
+            className={`w-full mt-2 px-4 py-2 rounded-lg shadow-sm
+          bg-white/20 placeholder-gray-300
+          border ${errors.password ? "border-red-500" : "border-white/40"}
+          text-white
+          focus:outline-none focus:ring-2 focus:ring-blue-400
+          transition-colors`}
             placeholder="Enter your password"
           />
           {errors.password && (
-            <p className="text-red-500 text-sm mt-1">
-              {errors.password.message}
-            </p>
+            <p className="text-red-500 text-sm mt-1 text-left">{errors.password.message}</p>
           )}
         </div>
 
@@ -102,21 +92,25 @@ const LoginPage: React.FC = () => {
         <div className="text-right mb-5">
           <button
             type="button"
-            className="text-sm text-blue-500 hover:underline focus:outline-none"
-            onClick={() => navigate("/forgot-password")}
+            className="text-sm text-blue-400 hover:underline focus:outline-none"
+            onClick={() => navigate("/auth/forgot-password")}
           >
             Forgot Password?
           </button>
         </div>
 
-        {/* Submit Button */}
-        <button
-          type="submit"
-          className="w-full bg-blue-600 hover:bg-blue-700 transition duration-200 text-white font-semibold py-2 rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-blue-400"
-        >
-          Login
-        </button>
+        <LoadingButton isPending={isPending} btnName="Login" btnLog="Logging in..." />
+
       </form>
+      <div className="text-center mt-5">
+        <button
+          type="button"
+          className="text-sm text-blue-400 hover:underline focus:outline-none"
+          onClick={() => navigate("/auth/register")}
+        >
+          Don't have account? <b>Sign Up</b>
+        </button>
+      </div>
     </div>
   );
 };

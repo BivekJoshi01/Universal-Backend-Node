@@ -85,7 +85,7 @@ const UnitOfMeasurement: React.FC = () => {
       />
       <CustomTable
         columns={columns}
-        data={unitOfMeasurementData?.customers || []}
+        data={unitOfMeasurementData?.units || []}
         enableRowNumbers
         isLoading={isPending}
       />

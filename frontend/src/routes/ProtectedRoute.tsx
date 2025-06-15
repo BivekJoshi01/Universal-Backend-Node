@@ -1,15 +1,27 @@
 // ProtectedRoute.tsx
 import React from "react";
+import { getUserRole } from "../utils/cookieHelper";
 import { Navigate } from "react-router";
 
 interface ProtectedRouteProps {
-  element: React.ReactNode;
-  isAuthenticated: boolean; // Authentication flag
+  element: React.ReactElement;
+  isAuthenticated: boolean;
+  allowedRoles?: string[]; 
 }
 
-const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ element, isAuthenticated }) => {
-  // Check if user is authenticated, if not redirect to login page
-  return isAuthenticated ? <>{element}</> : <Navigate to="/login" />;
+const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ element, isAuthenticated, allowedRoles }) => {
+  const role = getUserRole();
+  console.log("🚀 ~ role:", role)
+
+  if (!isAuthenticated) {
+    return <Navigate to="/auth/login" replace />;
+  }
+
+  if (allowedRoles && !allowedRoles.includes(role || "")) {
+    return <Navigate to="/unauthorized" replace />;
+  }
+
+  return element;
 };
 
 export default ProtectedRoute;
