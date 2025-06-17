@@ -13,6 +13,7 @@ import Customer from "../pages/Menu/Customer/Customer/Customer";
 import SupplierOtherParty from "../pages/Menu/Customer/SupplierOtherParty/SupplierOtherParty";
 import UserLandingPage from "../pages/User/UserLandingPage";
 import CustomerProfile from "../pages/Auth/Profile/CustomerProfile";
+import CompleteProfileLayout from "../pages/Auth/Profile/CompleteProfile/CompleteProfileLayout";
 
 export const UserRoutesConfig = [
   {
@@ -22,6 +23,11 @@ export const UserRoutesConfig = [
       {
         path: "Profile",
         element: CustomerProfile,
+        Children: [],
+      },
+      {
+        path: "onboarding",
+        element: CompleteProfileLayout,
         Children: [],
       },
       {

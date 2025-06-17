@@ -6,7 +6,7 @@ import { FiShoppingCart } from "react-icons/fi";
 const UserLandingPage: React.FC = () => {
   return (
     <>
-      <section className="relative bg-gradient-to-r from-blue-100 via-blue-200 to-blue-300 py-16 px-4 text-center overflow-hidden">
+      <section className="relative bg-gradient-to-br from-[#4e54c8] via-[#8f94fb] to-[#dbe6e4] py-16 px-4 text-center overflow-hidden">
         <img
           src={LogoSVG}
           alt="Background Logo"

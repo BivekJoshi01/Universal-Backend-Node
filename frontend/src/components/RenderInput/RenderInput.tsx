@@ -10,6 +10,7 @@ import { Input } from "./Fields/input";
 import { AutocompleteSelectField } from "./Fields/autoCompleteSelectFeild";
 import { Label } from "./Fields/label";
 import { AutocompleteSelectGetRequestField } from "./Fields/autoComplteSelectGetRequestFeild";
+import { Textarea } from "./Fields/textarea";
 
 export type FieldType =
   | "text"
@@ -73,7 +74,7 @@ export const RenderInput: React.FC<RenderInputProps> = ({
               return <Input type={field?.type} {...commonProps} />;
 
             case "textarea":
-              return <textarea {...commonProps} />;
+              return <Textarea {...commonProps} />;
 
             case "autoCompleteSelectField":
               return (

@@ -21,12 +21,16 @@ const userSchema = new mongoose.Schema(
     },
     role: {
       type: String,
-      enum: ["ADMIN", "INVENTORY", "CUSTOMER", "SUPPORT", "SALES"], 
+      enum: ["ADMIN", "INVENTORY", "CUSTOMER", "SUPPORT", "SALES"],
       default: "CUSTOMER",
     },
     isVerified: {
       type: Boolean,
       default: false,
+    },
+    firstTimeLogin: {
+      type: Boolean,
+      default: true,
     },
     resetPasswordToken: String,
     resetPasswordExpiresAt: Date,

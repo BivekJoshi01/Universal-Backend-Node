@@ -1,13 +1,8 @@
-import React from "react";
-import { FieldError, useForm } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
+import React from 'react'
+import RenderInput, { InputField } from '../../../../components/RenderInput/RenderInput';
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from "yup";
-import RenderInput, {
-    InputField,
-} from "../../../../components/RenderInput/RenderInput";
-import { FiCamera } from "react-icons/fi";
-import { IoClose } from "react-icons/io5";
-import { useAddCustomerHook } from "../../../../api/customerSupplier/customer/customer-hook";
 
 const validationSchema = yup.object().shape({
     // areaDetail: yup.string().required("Area Detail is required"),
@@ -29,7 +24,7 @@ const inputFields: InputField[] = [
         placeholder: "Enter email",
         label: "Email",
         required: true,
-        gridClass: "col-span-2",
+        gridClass: "col-span-4",
     },
     {
         name: "phoneNumber",
@@ -37,7 +32,7 @@ const inputFields: InputField[] = [
         placeholder: "Enter phone number",
         label: "Phone Number",
         required: true,
-        gridClass: "col-span-2",
+        gridClass: "col-span-4",
     },
     {
         name: "street",
@@ -45,7 +40,7 @@ const inputFields: InputField[] = [
         placeholder: "Enter street",
         label: "Street",
         required: true,
-        gridClass: "col-span-2",
+        gridClass: "col-span-4",
     },
     {
         name: "city",
@@ -53,7 +48,7 @@ const inputFields: InputField[] = [
         placeholder: "Enter city",
         label: "City",
         required: true,
-        gridClass: "col-span-2",
+        gridClass: "col-span-4",
     },
     {
         name: "country",
@@ -69,7 +64,7 @@ const inputFields: InputField[] = [
         type: "checkbox",
         label: "Is Retailer?",
         required: false,
-        gridClass: "col-span-4",
+        gridClass: "col-span-12",
     },
     {
         name: "vatPan",
@@ -77,7 +72,7 @@ const inputFields: InputField[] = [
         placeholder: "Enter VAT/PAN",
         label: "VAT/PAN",
         required: true,
-        gridClass: "col-span-1",
+        gridClass: "col-span-4",
     },
     {
         name: "contactPerson",
@@ -85,7 +80,7 @@ const inputFields: InputField[] = [
         placeholder: "Enter contact person",
         label: "Contact Person",
         required: true,
-        gridClass: "col-span-1",
+        gridClass: "col-span-4",
     },
 
     {
@@ -97,7 +92,7 @@ const inputFields: InputField[] = [
         placeholder: "Select area",
         label: "Area",
         required: true,
-        gridClass: "col-span-1",
+        gridClass: "col-span-4",
     },
     {
         name: "agentId",
@@ -108,7 +103,7 @@ const inputFields: InputField[] = [
         placeholder: "Select area",
         label: "Agent",
         required: true,
-        gridClass: "col-span-1",
+        gridClass: "col-span-4",
     },
     {
         name: "creditLimit",
@@ -116,7 +111,7 @@ const inputFields: InputField[] = [
         placeholder: "Enter credit limit",
         label: "Credit Limit",
         required: true,
-        gridClass: "col-span-1",
+        gridClass: "col-span-4",
     },
     {
         name: "type",
@@ -124,7 +119,7 @@ const inputFields: InputField[] = [
         placeholder: "Enter type",
         label: "Customer Type",
         required: true,
-        gridClass: "col-span-1",
+        gridClass: "col-span-4",
     },
     {
         name: "memo",
@@ -132,22 +127,18 @@ const inputFields: InputField[] = [
         placeholder: "Enter memo",
         label: "Memo",
         required: false,
-        gridClass: "col-span-1",
+        gridClass: "col-span-4",
     },
     {
         name: "isActive",
         type: "checkbox",
         label: "Is Active?",
         required: false,
-        gridClass: "col-span-1",
+        gridClass: "col-span-4",
     },
 ];
 
-interface ProductCompantFormProps {
-    onClose: () => void;
-}
-
-const CustomerForm: React.FC<ProductCompantFormProps> = ({ onClose }) => {
+const CompleteProfileForm = () => {
     const {
         register,
         handleSubmit,
@@ -156,46 +147,28 @@ const CustomerForm: React.FC<ProductCompantFormProps> = ({ onClose }) => {
     } = useForm({
         resolver: yupResolver(validationSchema),
     });
-
-    const { mutate } = useAddCustomerHook();
-
     const onSubmit = (data: object) => {
-        mutate(
-            { formData: data },
-            {
-                onSuccess: () => onClose(),
-            }
-        );
+        console.log("csadc",data)
     };
-
     return (
-        <form
-            onSubmit={handleSubmit(onSubmit)}
-            className="grid grid-cols-2 md:grid-cols-4"
-        >
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-2 ">
             <RenderInput
                 inputFields={inputFields}
                 register={register}
                 errors={errors}
                 control={control}
             />
-
-            <div className="col-span-2 md:col-span-4 flex justify-between items-center border-t pt-2 border-stone-300">
+            <div className="col-span-full flex justify-end mt-4">
                 <button
-                    className="flex text-sm items-center gap-2 bg-red-300 transition-colors hover:bg-red-400 px-3 py-1.5 rounded"
-                    onClick={onClose}
+                    type="button"
+                    onClick={handleSubmit(onSubmit)}
+                    className="px-4 py-2 bg-blue-600 text-white rounded-md"
                 >
-                    <IoClose /> <span>Close</span>
-                </button>
-                <button
-                    className="flex text-sm items-center gap-2 bg-green-300 transition-colors hover:bg-green-400 px-3 py-1.5 rounded"
-                    type="submit"
-                >
-                    <FiCamera /> <span>Submit</span>
+                    Submit
                 </button>
             </div>
-        </form>
-    );
-};
+        </div>
+    )
+}
 
-export default CustomerForm;
+export default CompleteProfileForm
