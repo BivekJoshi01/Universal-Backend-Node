@@ -72,14 +72,6 @@ const inputFields: InputField[] = [
         gridClass: "col-span-4",
     },
     {
-        name: "vatPan",
-        type: "text",
-        placeholder: "Enter VAT/PAN",
-        label: "VAT/PAN",
-        required: true,
-        gridClass: "col-span-1",
-    },
-    {
         name: "contactPerson",
         type: "text",
         placeholder: "Enter contact person",
@@ -87,7 +79,14 @@ const inputFields: InputField[] = [
         required: true,
         gridClass: "col-span-1",
     },
-
+    {
+        name: "vatPan",
+        type: "text",
+        placeholder: "Enter VAT/PAN",
+        label: "VAT/PAN",
+        required: true,
+        gridClass: "col-span-1",
+    },
     {
         name: "areaId",
         type: "autoCompleteSelectGetRequestField",

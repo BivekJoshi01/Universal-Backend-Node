@@ -8,7 +8,7 @@ const DropZoneCustom = () => {
   return (
     <div
       {...getRootProps()}
-      className="flex items-center justify-center border-2 border-dashed border-gray-400 rounded-xl bg-white h-60 cursor-pointer"
+      className="w-full flex items-center justify-center border-2 border-dashed border-gray-400 rounded-xl bg-white h-30 cursor-pointer"
     >
       <input {...getInputProps()} />
       {acceptedFiles.length > 0 ? (

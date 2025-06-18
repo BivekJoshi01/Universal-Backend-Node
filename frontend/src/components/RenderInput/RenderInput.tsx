@@ -33,6 +33,7 @@ export interface InputField {
   type: FieldType;
   placeholder?: string;
   label?: string;
+  extraLabel?: string;
   required?: boolean;
   gridClass?: string;
   options?: Option[];
@@ -111,7 +112,11 @@ export const RenderInput: React.FC<RenderInputProps> = ({
 
             case "checkbox":
               return (
-                <div className="flex items-center">
+                <div className="flex items-center gap-2.5">
+                  <div>
+                    <Label htmlFor={field?.extraLabel}>{field?.extraLabel}</Label>
+                  
+                  </div>
                   <input
                     type="checkbox"
                     {...register(field?.name)}

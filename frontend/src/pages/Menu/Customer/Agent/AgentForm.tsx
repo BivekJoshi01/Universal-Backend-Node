@@ -106,7 +106,7 @@ const AgentForm: React.FC<any> = ({ onClose }) => {
       onSubmit={handleSubmit(onSubmit)}
       className="grid grid-cols-2 md:grid-cols-4"
     >
-      {inputFields.map((field, index) => (
+      {/* {inputFields.map((field, index) => (
         <div key={index} className={`w-full ${field.gridClass} py-1`}>
           <RenderInput
             name={field.name}
@@ -122,7 +122,7 @@ const AgentForm: React.FC<any> = ({ onClose }) => {
             }
           />
         </div>
-      ))}
+      ))} */}
       <div className="col-span-2 md:col-span-4 flex justify-between items-center border-t pt-2 border-stone-300">
         <button
           className="flex text-sm items-center gap-2 bg-red-300 transition-colors hover:bg-red-400 px-3 py-1.5 rounded"

@@ -1,17 +1,30 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Outlet, useNavigate } from "react-router";
 import UniLogo from "../assets/Office/UniversalLogo.jpeg";
 import { FaEnvelope, FaPhoneAlt, FaSearch } from "react-icons/fa";
 import { IoIosNotifications } from "react-icons/io";
 import { TiShoppingCart } from "react-icons/ti";
 import { CgProfile } from "react-icons/cg";
+import { useDispatch } from "react-redux";
+import { useGetLoggedUserData } from "../api/auth/auth-hook";
+import { setUser } from "../redux/reducer/authSlice";
 
 const UserPageLayout: React.FC = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
   const [showPromo, setShowPromo] = useState(true);
   const [cartItems, setCartItems] = useState(3); // Example cart item count
   const [notifications, setNotifications] = useState(2); // Example notification count
 
+  const { data: loggedUserData } = useGetLoggedUserData();
+
+  useEffect(() => {
+    if (loggedUserData) {
+      dispatch(setUser(loggedUserData?.user));
+    }
+  }, [loggedUserData, dispatch]);
+  
   return (
     <main className="text-stone-900 bg-gradient-to-br from-amber-100 via-green-100 to-blue-100 min-h-screen font-sans">
       {/* Promo Banner */}
