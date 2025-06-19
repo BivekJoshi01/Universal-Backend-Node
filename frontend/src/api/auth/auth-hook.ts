@@ -37,6 +37,7 @@ interface AuthResponse {
     email: string;
     pic: string;
     role: string;
+    firstTimeLogin: boolean;
   };
 }
 
@@ -60,10 +61,14 @@ export const useAuthHook = () => {
     onSuccess: (response) => {
       setLoggedUserId(response?.user?._id);
       setLoggedUserRole(response?.user?.role);
-      if (response?.user?.role === "CUSTOMER") {
-        navigate("/User/Home");
-      } else {
+      if (response?.user?.role === "ADMIN") {
         navigate("/Menu/Home");
+      } else {
+        if (response?.user?.firstTimeLogin) {
+          navigate("/User/onboarding");
+        } else {
+          navigate("/User/Home");
+        }
       }
       toast.success("Login Successful");
     },
@@ -126,10 +131,14 @@ export const useVerifyEmailHook = () => {
     onSuccess: (response) => {
       setLoggedUserId(response?.user?._id);
       setLoggedUserRole(response?.user?.role);
-      if (response?.user?.role === "CUSTOMER") {
-        navigate("/User/Home");
-      } else {
+      if (response?.user?.role === "ADMIN") {
         navigate("/Menu/Home");
+      } else {
+        if (response?.user?.firstTimeLogin) {
+          navigate("/User/onboarding");
+        } else {
+          navigate("/User/Home");
+        }
       }
       toast.success("Login Successful");
     },

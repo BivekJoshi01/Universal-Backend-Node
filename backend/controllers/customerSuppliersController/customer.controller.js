@@ -11,28 +11,32 @@ export const createCustomer = expressAsyncHandler(async (req, res) => {
 });
 
 export const getCustomers = expressAsyncHandler(async (req, res) => {
-  // Populate area fields 'name' and 'agent' properly in one call
-  const customers = await Customer.find().populate("area", "name agent");
+  const customers = await Customer.find()
+    .populate("areaId", "areaDetail areaShortName") // populate areaId with name
+    .populate("agentId", "agentDetail"); // populate agentId with selected fields
   res.status(200).json(customers);
 });
 
-export const getCustomerPaginatedPost = expressAsyncHandler(async (req, res) => {
-  const { pageSize = 10, pageNumber = 1, ...searchFields } = req.body;
+export const getCustomerPaginatedPost = expressAsyncHandler(
+  async (req, res) => {
+    const { pageSize = 10, pageNumber = 1, ...searchFields } = req.body;
 
-  const searchCondition = buildSearchConditions(searchFields);
+    const searchCondition = buildSearchConditions(searchFields);
 
-  const count = await Customer.countDocuments(searchCondition);
+    const count = await Customer.countDocuments(searchCondition);
 
-  const customers = await Customer.find(searchCondition)
-    .limit(Number(pageSize))
-    .skip(Number(pageSize) * (Number(pageNumber) - 1))
-    .sort({ createdAt: -1 })
-    .populate("area", "name agent");
+    const customers = await Customer.find(searchCondition)
+      .limit(Number(pageSize))
+      .skip(Number(pageSize) * (Number(pageNumber) - 1))
+      .sort({ createdAt: -1 })
+      .populate("areaId", "areaDetail areaShortName")
+      .populate("agentId", "agentDetail");
 
-  res.status(200).json({
-    customers,
-    pageNumber: Number(pageNumber),
-    pages: Math.ceil(count / Number(pageSize)),
-    totalElements: count,
-  });
-});
+    res.status(200).json({
+      customers,
+      pageNumber: Number(pageNumber),
+      pages: Math.ceil(count / Number(pageSize)),
+      totalElements: count,
+    });
+  }
+);

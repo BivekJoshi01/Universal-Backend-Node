@@ -1,23 +1,38 @@
-import React, { useState } from 'react';
-import { Outlet, useNavigate } from 'react-router';
-import UniLogo from "../assets/Office/UniversalLogo.jpeg"
-import { FaEnvelope, FaPhoneAlt, FaSearch } from 'react-icons/fa';
-import { IoIosNotifications } from 'react-icons/io';
+import React, { useEffect, useState } from "react";
+import { Outlet, useNavigate } from "react-router";
+import UniLogo from "../assets/Office/UniversalLogo.jpeg";
+import { FaEnvelope, FaPhoneAlt, FaSearch } from "react-icons/fa";
+import { IoIosNotifications } from "react-icons/io";
 import { TiShoppingCart } from "react-icons/ti";
 import { CgProfile } from "react-icons/cg";
+import { useDispatch } from "react-redux";
+import { useGetLoggedUserData } from "../api/auth/auth-hook";
+import { setUser } from "../redux/reducer/authSlice";
 
 const UserPageLayout: React.FC = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
   const [showPromo, setShowPromo] = useState(true);
   const [cartItems, setCartItems] = useState(3); // Example cart item count
   const [notifications, setNotifications] = useState(2); // Example notification count
 
+  const { data: loggedUserData } = useGetLoggedUserData();
+
+  useEffect(() => {
+    if (loggedUserData) {
+      dispatch(setUser(loggedUserData?.user));
+    }
+  }, [loggedUserData, dispatch]);
+  
   return (
-    <main className="text-stone-900 bg-stone-50 min-h-screen font-sans">
+    <main className="text-stone-900 bg-gradient-to-br from-amber-100 via-green-100 to-blue-100 min-h-screen font-sans">
       {/* Promo Banner */}
       {showPromo && (
         <div className="bg-yellow-100 text-center py-2 px-4 text-yellow-800 flex justify-between items-center">
-          <p className="text-sm font-medium">🎉 Free shipping on orders over Rs 5000 Shop now</p>
+          <p className="text-sm font-medium">
+            🎉 Free shipping on orders over Rs 5000 Shop now
+          </p>
           <button
             onClick={() => setShowPromo(false)}
             className="text-sm hover:bg-white/20 p-1 rounded-full transition-colors"
@@ -29,11 +44,16 @@ const UserPageLayout: React.FC = () => {
       )}
 
       {/* Header */}
-      <header className="bg-white shadow-md sticky top-0 z-50">
+      <header
+        className="bg-stone-50 shadow-md sticky top-0 z-50"
+      >
         <nav className="container mx-auto px-4 py-3">
           <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-4">
             {/* Logo and Brand */}
-            <div className="flex items-center gap-3" onClick={() => navigate("/User/Home")}>
+            <div
+              className="flex items-center gap-3"
+              onClick={() => navigate("/User/Home")}
+            >
               <div className="w-12 h-12 flex-shrink-0">
                 <img
                   src={UniLogo}
@@ -46,9 +66,7 @@ const UserPageLayout: React.FC = () => {
               </h1>
             </div>
 
-            {/* Navigation and Search */}
             <div className="flex flex-col md:flex-row gap-4 items-stretch w-full md:w-auto">
-              {/* Search Bar */}
               <div className="relative flex-grow md:w-64 lg:w-80">
                 <input
                   type="text"
@@ -60,10 +78,18 @@ const UserPageLayout: React.FC = () => {
 
               {/* Navigation Links */}
               <ul className="flex justify-between md:flex gap-4 text-stone-700 font-medium items-center">
-                <li className="hover:text-blue-600 cursor-pointer transition-colors px-2 py-1 rounded hover:bg-blue-50">Home</li>
-                <li className="hover:text-blue-600 cursor-pointer transition-colors px-2 py-1 rounded hover:bg-blue-50">Categories</li>
-                <li className="hover:text-blue-600 cursor-pointer transition-colors px-2 py-1 rounded hover:bg-blue-50">Track</li>
-                <li className="hover:text-blue-600 cursor-pointer transition-colors px-2 py-1 rounded hover:bg-blue-50">Contact</li>
+                <li className="hover:text-blue-600 cursor-pointer transition-colors px-2 py-1 rounded hover:bg-blue-50">
+                  Home
+                </li>
+                <li className="hover:text-blue-600 cursor-pointer transition-colors px-2 py-1 rounded hover:bg-blue-50">
+                  Categories
+                </li>
+                <li className="hover:text-blue-600 cursor-pointer transition-colors px-2 py-1 rounded hover:bg-blue-50">
+                  Track
+                </li>
+                <li className="hover:text-blue-600 cursor-pointer transition-colors px-2 py-1 rounded hover:bg-blue-50">
+                  Contact
+                </li>
               </ul>
             </div>
 
@@ -87,7 +113,10 @@ const UserPageLayout: React.FC = () => {
                 )}
               </div>
 
-              <div className="cursor-pointer group" onClick={() => navigate("/User/Profile")}>
+              <div
+                className="cursor-pointer group"
+                onClick={() => navigate("/User/Profile")}
+              >
                 <CgProfile className="text-2xl text-stone-600 group-hover:text-blue-600 transition-colors" />
               </div>
             </div>
@@ -101,7 +130,10 @@ const UserPageLayout: React.FC = () => {
       {/* </div> */}
 
       {/* Footer */}
-      <footer className="bg-white py-12 px-6 mt-16 border-t border-stone-200">
+      <footer
+        className="bg-gradient-to-br from-indigo-500 via-sky-400 to-emerald-200
+ py-12 px-6 mt-16 border-t border-stone-200"
+      >
         <div className="container mx-auto grid grid-cols-1 md:grid-cols-4 gap-10 text-stone-700">
           {/* Logo & About */}
           <div>
@@ -113,35 +145,50 @@ const UserPageLayout: React.FC = () => {
                   className="w-full h-full object-contain rounded"
                 />
               </div>
-              <h4 className="text-xl font-bold text-gray-800">Universal Stationery Suppliers</h4>
+              <h4 className="text-xl font-bold text-gray-800">
+                Universal Stationery Suppliers
+              </h4>
             </div>
             <p className="text-sm leading-relaxed text-stone-600">
-              Bringing quality office supplies to your desk since 2020. We're committed to providing the best stationery products with fast delivery.
+              Bringing quality office supplies to your desk since 2020. We're
+              committed to providing the best stationery products with fast
+              delivery.
             </p>
           </div>
 
           {/* Quick Links */}
           <div>
-            <h4 className="text-lg font-semibold mb-4 text-gray-800">Quick Links</h4>
+            <h4 className="text-lg font-semibold mb-4 text-gray-800">
+              Quick Links
+            </h4>
             <ul className="space-y-3">
-              {['Home', 'Products', 'Track Order', 'Support', 'FAQ'].map((link) => (
-                <li key={link}>
-                  <a
-                    href="#"
-                    className="text-sm text-stone-600 hover:text-blue-600 transition-colors block py-1"
-                  >
-                    {link}
-                  </a>
-                </li>
-              ))}
+              {["Home", "Products", "Track Order", "Support", "FAQ"].map(
+                (link) => (
+                  <li key={link}>
+                    <a
+                      href="#"
+                      className="text-sm text-stone-600 hover:text-blue-600 transition-colors block py-1"
+                    >
+                      {link}
+                    </a>
+                  </li>
+                )
+              )}
             </ul>
           </div>
 
           {/* Customer Service */}
           <div>
-            <h4 className="text-lg font-semibold mb-4 text-gray-800">Customer Service</h4>
+            <h4 className="text-lg font-semibold mb-4 text-gray-800">
+              Customer Service
+            </h4>
             <ul className="space-y-3">
-              {['Returns Policy', 'Shipping Info', 'Privacy Policy', 'Terms of Service'].map((link) => (
+              {[
+                "Returns Policy",
+                "Shipping Info",
+                "Privacy Policy",
+                "Terms of Service",
+              ].map((link) => (
                 <li key={link}>
                   <a
                     href="#"
@@ -156,11 +203,15 @@ const UserPageLayout: React.FC = () => {
 
           {/* Contact Info */}
           <div>
-            <h4 className="text-lg font-semibold mb-4 text-gray-800">Contact Us</h4>
+            <h4 className="text-lg font-semibold mb-4 text-gray-800">
+              Contact Us
+            </h4>
             <div className="space-y-3">
               <div className="flex items-start gap-3">
                 <FaEnvelope className="text-blue-500 mt-1 flex-shrink-0" />
-                <span className="text-sm text-stone-600">support@stationeryhub.com</span>
+                <span className="text-sm text-stone-600">
+                  support@stationeryhub.com
+                </span>
               </div>
               <div className="flex items-start gap-3">
                 <FaPhoneAlt className="text-blue-500 mt-1 flex-shrink-0" />
@@ -169,7 +220,7 @@ const UserPageLayout: React.FC = () => {
               <div className="pt-2">
                 <h5 className="text-sm font-medium mb-2">Follow Us</h5>
                 <div className="flex gap-3">
-                  {['Facebook', 'Twitter', 'Instagram'].map((social) => (
+                  {["Facebook", "Twitter", "Instagram"].map((social) => (
                     <a
                       key={social}
                       href="#"
@@ -186,7 +237,9 @@ const UserPageLayout: React.FC = () => {
 
         <div className="container mx-auto border-t border-stone-200 mt-10 pt-6 text-center">
           <p className="text-xs text-stone-500">
-            © 2025 <span className="font-medium">Universal Stationery Suppliers</span>. All rights reserved.
+            © 2025{" "}
+            <span className="font-medium">Universal Stationery Suppliers</span>.
+            All rights reserved.
           </p>
         </div>
       </footer>

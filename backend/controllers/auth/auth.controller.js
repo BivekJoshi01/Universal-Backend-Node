@@ -140,6 +140,13 @@ export const login = async (req, res) => {
 
     generateTokenAndSetCookie(res, user._id);
     user.lastLogin = new Date();
+
+    const isFirstTimeLogin = user.firstTimeLogin;
+
+    if (isFirstTimeLogin) {
+      user.firstTimeLogin = false;
+    }
+
     await user.save();
 
     res.status(200).json({

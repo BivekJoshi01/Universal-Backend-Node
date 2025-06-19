@@ -38,8 +38,16 @@ const Customer: React.FC = () => {
     () => [
       {
         id: nanoid(),
-        accessorKey: "agentDetail",
         header: "Agent",
+        Cell: ({ row }) => {
+          const { agentId, areaId } = row.original;
+          return (
+            <div>
+              <div>Agent: {agentId?.agentDetail}</div>
+              <div>Area: {areaId?.areaDetail}</div>
+            </div>
+          );
+        },
       },
       {
         id: nanoid(),

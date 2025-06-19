@@ -9,26 +9,27 @@ const customerSchema = new mongoose.Schema(
     city: { type: String, required: true },
     country: { type: String, required: true },
 
-    vatPan: { type: String, required: true },
+    vatPan: { type: String, required: false },
+    landlineNo: { type: String, required: false },
     isRetailer: { type: Boolean, required: true },
 
-    contactPerson: { type: String, required: true },
+    contactPerson: { type: String, required: false },
     email: { type: String, required: true, unique: true },
     phoneNumber: { type: String, required: true },
 
-    agent: {
+    agentId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Agent",
-      required: true,
+      required: false,
     },
-    area: {
+    areaId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Area",
-      required: true,
+      required: false,
     },
-    creditLimit: { type: String, required: true },
-    type: { type: String, required: true },
-    memo: { type: String, required: true },
+    creditLimit: { type: String, required: false },
+    type: { type: String, required: false },
+    memo: { type: String, required: false },
     isActive: { type: Boolean, required: true },
 
     customerPic: {

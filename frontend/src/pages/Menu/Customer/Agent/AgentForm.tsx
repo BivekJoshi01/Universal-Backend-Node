@@ -46,17 +46,17 @@ const inputFields: {
       required: true,
       gridClass: "col-span-1 md:col-span-1",
     },
-    {
-      name: "country",
-      type: "dropdown",
-      placeholder: "Enter country",
-      label: "Country",
-      options: [
-        { label: "Nepal", value: "Nepal" }
-      ],
-      required: true,
-      gridClass: "col-span-1 md:col-span-1",
-    },
+    // {
+    //   name: "country",
+    //   type: "dropdown",
+    //   placeholder: "Enter country",
+    //   label: "Country",
+    //   options: [
+    //     { label: "Nepal", value: "Nepal" }
+    //   ],
+    //   required: true,
+    //   gridClass: "col-span-1 md:col-span-1",
+    // },
     {
       name: "contactPerson",
       type: "text",
@@ -106,7 +106,7 @@ const AgentForm: React.FC<any> = ({ onClose }) => {
       onSubmit={handleSubmit(onSubmit)}
       className="grid grid-cols-2 md:grid-cols-4"
     >
-      {inputFields.map((field, index) => (
+      {/* {inputFields.map((field, index) => (
         <div key={index} className={`w-full ${field.gridClass} py-1`}>
           <RenderInput
             name={field.name}
@@ -114,7 +114,6 @@ const AgentForm: React.FC<any> = ({ onClose }) => {
             placeholder={field.placeholder}
             label={field.label}
             required={field.required}
-            options={field.options}
             register={register}
             error={
               errors[field.name as keyof typeof errors] as
@@ -123,7 +122,7 @@ const AgentForm: React.FC<any> = ({ onClose }) => {
             }
           />
         </div>
-      ))}
+      ))} */}
       <div className="col-span-2 md:col-span-4 flex justify-between items-center border-t pt-2 border-stone-300">
         <button
           className="flex text-sm items-center gap-2 bg-red-300 transition-colors hover:bg-red-400 px-3 py-1.5 rounded"
