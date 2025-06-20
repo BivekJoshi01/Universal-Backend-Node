@@ -23,9 +23,8 @@ const FormModel: React.FC<FormModelProps> = ({ open, children, width = "50%", mo
       onClick={handleOutsideClick}
     >
       <div
-        className={`bg-white w-full rounded-lg shadow-lg p-4 transition ${isShaking ? "shake" : ""
-          }`}
-        style={{ width }}
+        className={`bg-white w-[90%] sm:w-full rounded-lg shadow-lg p-4 transition ${isShaking ? "shake" : ""}`}
+        style={{ width: width }}
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}

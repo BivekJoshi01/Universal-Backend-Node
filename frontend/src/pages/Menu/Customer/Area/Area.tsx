@@ -86,7 +86,7 @@ const Area: React.FC = () => {
         setpageSize={setpageSize}
       />
 
-      <FormModel open={openEditModel} width={"20%"} modelTitle={"Edit Area"}>
+      {/* <FormModel open={openEditModel} width={"20%"} modelTitle={"Edit Area"}>
         <AreaForm
           onClose={() => {
             setOpenEditModel(false);
@@ -94,7 +94,7 @@ const Area: React.FC = () => {
           }}
           defaultValues={editData}
         />
-      </FormModel>
+      </FormModel> */}
 
       <DeleteConfirmationModel
         open={openDeleteModel}

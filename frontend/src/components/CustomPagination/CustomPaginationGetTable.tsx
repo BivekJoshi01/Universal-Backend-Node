@@ -58,12 +58,12 @@ export const CustomPaginationGetTable: React.FC<PaginationProps> = ({
 
     const getButtonClass = (p: number | string) =>
         `flex items-center justify-center px-3 h-8 leading-tight border border-gray-300 ${p === page
-            ? 'text-blue-600 bg-blue-50 hover:bg-blue-100 hover:text-blue-700'
-            : 'text-gray-500 bg-white hover:bg-gray-100 hover:text-gray-700'
-        }`
+            ? "text-primary-90 bg-primary-20 hover:bg-primary-30 hover:text-text"
+            : "text-primary-80 bg-primary-30 hover:bg-primary-20 hover:text-primary-80"
+        }`;
 
     return (
-        <div className='bg-primary-10 mt-4 p-2.5'>
+        <div className='bg-primary-100 mt-4 p-2.5'>
             <div className='flex items-center justify-between'>
                 <div>Total Elements: {totalElements}</div>
                 <nav aria-label="Page navigation">
@@ -73,8 +73,8 @@ export const CustomPaginationGetTable: React.FC<PaginationProps> = ({
                                 onClick={() => handleClick(page - 1)}
                                 disabled={page === 1}
                                 className={`flex items-center justify-center px-3 h-8 ms-0 leading-tight ${page === 1
-                                    ? 'text-gray-400 bg-gray-100'
-                                    : 'text-gray-500 bg-white hover:bg-gray-100 hover:text-gray-700'
+                                    ? "bg-backgroundAlt"
+                                    : " bg-backgroundLight hover:bg-gray-100 hover:text-gray-700"
                                     } border border-e-0 border-gray-300 rounded-s-lg`}
                             >
                                 Previous
@@ -103,8 +103,8 @@ export const CustomPaginationGetTable: React.FC<PaginationProps> = ({
                                 onClick={() => handleClick(page + 1)}
                                 disabled={page === totalPages}
                                 className={`flex items-center justify-center px-3 h-8 leading-tight ${page === totalPages
-                                    ? 'text-gray-400 bg-gray-100'
-                                    : 'text-gray-500 bg-white hover:bg-gray-100 hover:text-gray-700'
+                                    ? "bg-backgroundAlt"
+                                    : " bg-backgroundLight hover:bg-gray-100 hover:text-gray-700"
                                     } border border-gray-300 rounded-e-lg`}
                             >
                                 Next

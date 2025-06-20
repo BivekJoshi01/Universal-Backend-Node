@@ -128,7 +128,7 @@ const CustomTable = <T extends Record<string, any>>({
         muiTableBodyRowProps={() => ({
           sx: {
             cursor: "pointer",
-            backgroundColor: "var(--primary-10)",
+            backgroundColor: "var(--backgroundLight)",
             color: "var(--text)",
           },
         })}
@@ -141,10 +141,10 @@ const CustomTable = <T extends Record<string, any>>({
       <style>
         {`
       .css-10gei56  {
-        background-color: var(--background)
+        background-color: var(--backgroundAlt)
       }
               .css-zrlv9q  {
-        background-color: var(--background)
+        background-color: var(--backgroundAlt)
       }
         .css-1e1m30i {
           color: var(--text)

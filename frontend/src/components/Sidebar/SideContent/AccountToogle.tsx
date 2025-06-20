@@ -32,7 +32,7 @@ const AccountToogle: React.FC = () => {
             <div className="border-b mt-2 pb-4 border-stone-300">
                 <button
                     onClick={togglePopover}
-                    className="flex p-0.5 hover:bg-stone-200 rounded transition-colors relative gap-2 w-full items-center"
+                    className="flex p-0.5 hover:bg-backgroundAlt rounded transition-colors relative gap-2 w-full items-center"
                 >
                     <img
                         src="https://api.dicebear.com/9.x/notionists/svg"

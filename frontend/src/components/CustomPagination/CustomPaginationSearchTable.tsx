@@ -49,12 +49,11 @@ export const CustomPaginationSearchTable: React.FC<Props> = ({
   };
 
   const pages = getPageNumbers();
-  
+
   const getButtonClass = (p: number | string) =>
-    `flex items-center justify-center px-3 h-8 leading-tight border border-gray-300 ${
-      p === page
-        ? "text-blue-600 bg-blue-50 hover:bg-blue-100 hover:text-blue-700"
-        : "text-gray-500 bg-white hover:bg-gray-100 hover:text-gray-700"
+    `flex items-center justify-center px-3 h-8 leading-tight border border-gray-300 ${p === page
+      ? "text-primary-90 bg-primary-20 hover:bg-primary-30 hover:text-text"
+      : "text-primary-80 bg-primary-30 hover:bg-primary-20 hover:text-primary-80"
     }`;
 
   const options = [10, 20, 50, 100, 200];
@@ -69,11 +68,10 @@ export const CustomPaginationSearchTable: React.FC<Props> = ({
               <button
                 onClick={handlePrev}
                 disabled={page === 1}
-                className={`flex items-center justify-center px-3 h-8 ms-0 leading-tight ${
-                  page === 1
-                    ? "text-gray-400 bg-gray-100"
-                    : "text-gray-500 bg-white hover:bg-gray-100 hover:text-gray-700"
-                } border border-e-0 border-gray-300 rounded-s-lg`}
+                className={`flex items-center justify-center px-3 h-8 ms-0 leading-tight ${page === 1
+                    ? "bg-backgroundAlt"
+                    : " bg-backgroundLight hover:bg-gray-100 hover:text-gray-700"
+                  } border border-e-0 border-gray-300 rounded-s-lg`}
               >
                 Previous
               </button>
@@ -81,7 +79,7 @@ export const CustomPaginationSearchTable: React.FC<Props> = ({
             {pages.map((p, index) => (
               <li key={index}>
                 {p === "..." ? (
-                  <span className="flex items-center justify-center px-3 h-8 text-gray-500 bg-white border border-gray-300">
+                  <span className="flex items-center justify-center px-3 h-8 text-gray-500 bg-backgroundLight border border-gray-300">
                     ...
                   </span>
                 ) : (
@@ -99,11 +97,10 @@ export const CustomPaginationSearchTable: React.FC<Props> = ({
               <button
                 onClick={handleNext}
                 disabled={page === totalPages}
-                className={`flex items-center justify-center px-3 h-8 leading-tight ${
-                  page === totalPages
-                    ? "text-gray-400 bg-gray-100"
-                    : "text-gray-500 bg-white hover:bg-gray-100 hover:text-gray-700"
-                } border border-gray-300 rounded-e-lg`}
+                className={`flex items-center justify-center px-3 h-8 leading-tight ${page === totalPages
+                    ? "bg-backgroundAlt"
+                    : " bg-backgroundLight hover:bg-gray-100 hover:text-gray-700"
+                  } border border-gray-300 rounded-e-lg`}
               >
                 Next
               </button>
