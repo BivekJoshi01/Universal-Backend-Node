@@ -12,6 +12,7 @@ export const createProductType = expressAsyncHandler(async (req, res) => {
 
 export const getProductTypes = expressAsyncHandler(async (req, res) => {
   const productTypes = await ProductType.find();
+  console.log(productTypes);
   res.status(200).json(productTypes);
 });
 
