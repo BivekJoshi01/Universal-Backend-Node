@@ -82,7 +82,7 @@ const ProductGroup: React.FC = () => {
         openModel={openModel}
         setOpenModel={setOpenModel}
       >
-        <ProductGroupForm />
+        <ProductGroupForm onClose={() => setOpenModel(false)} />
       </Header>
       <FilterSearch
         inputFields={inputFields}

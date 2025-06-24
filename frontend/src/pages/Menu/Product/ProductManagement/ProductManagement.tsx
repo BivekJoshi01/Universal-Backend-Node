@@ -71,7 +71,7 @@ const ProductManagement: React.FC = () => {
         openModel={openModel}
         setOpenModel={setOpenModel}
       >
-        <ProductManagementForm />
+        <ProductManagementForm onClose={() => setOpenModel(false)}/>
       </Header>
       <FilterSearch
         inputFields={inputFields}
