@@ -3,6 +3,7 @@ import FormModel from "../Model/FormModel";
 import Breadcrumb from "./BreadCrump/BreadCrump";
 import GlobeImage from "../../assets/Office/GlobeImage.svg";
 import SubHead from "./SubHead";
+import { Button } from "../Button/button";
 interface HeaderProps {
   children: ReactNode;
   modelTitle?: string;
@@ -52,13 +53,9 @@ const Header: React.FC<HeaderProps> = ({
             {time.toLocaleTimeString()}
           </div>
           {buttonTitle && setOpenModel ? (
-            <button
-              className="flex text-sm items-center gap-2 bg-stone-100 transition-colors hover:bg-violet-100 hover:text-violet-700 px-3 py-1.5 rounded"
-              // onClick={() => setOpenModel(true)}
-              onClick={() => setOpenModel(true)}
-            >
+            <Button onClick={() => setOpenModel(true)}>
               {buttonIcon} <span>{buttonTitle}</span>
-            </button>
+            </Button>
           ) : (
             <div></div>
           )}

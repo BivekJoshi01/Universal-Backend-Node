@@ -1,4 +1,4 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 import {
   addProductType,
@@ -7,11 +7,10 @@ import {
   getProductTypeById,
   updateProductType,
   deleteProductType,
-  searchProductTypesByKeyword
+  searchProductTypesByKeyword,
 } from "./productType-api";
 
 export const useAddProductTypeHook = () => {
-  const queryClient = useQueryClient();
   return useMutation({
     mutationKey: ["productType"],
     mutationFn: async ({ formData }: any): Promise<any> => {
@@ -20,7 +19,6 @@ export const useAddProductTypeHook = () => {
     },
     onSuccess: () => {
       toast.success("Product type added successfully");
-      queryClient.invalidateQueries({ queryKey: ["productTypes"] });
     },
     onError: (error: any) => {
       const message =
@@ -71,16 +69,20 @@ export const useGetProductTypeByIdHook = (id: string) => {
 };
 
 export const useUpdateProductTypeHook = () => {
-  const queryClient = useQueryClient();
   return useMutation({
     mutationKey: ["updateProductType"],
-    mutationFn: async ({ id, formData }: { id: string; formData: object }): Promise<any> => {
+    mutationFn: async ({
+      id,
+      formData,
+    }: {
+      id: string;
+      formData: object;
+    }): Promise<any> => {
       const response = await updateProductType(id, formData);
       return response;
     },
     onSuccess: () => {
       toast.success("Product type updated successfully");
-      queryClient.invalidateQueries({ queryKey: ["productTypes"] });
     },
     onError: (error: any) => {
       const message =
@@ -93,7 +95,6 @@ export const useUpdateProductTypeHook = () => {
 };
 
 export const useDeleteProductTypeHook = () => {
-  const queryClient = useQueryClient();
   return useMutation({
     mutationKey: ["deleteProductType"],
     mutationFn: async (id: string): Promise<any> => {
@@ -102,7 +103,6 @@ export const useDeleteProductTypeHook = () => {
     },
     onSuccess: () => {
       toast.success("Product type deleted successfully");
-      queryClient.invalidateQueries({ queryKey: ["productTypes"] });
     },
     onError: (error: any) => {
       const message =

@@ -101,20 +101,20 @@ const CustomTable = <T extends Record<string, any>>({
             {enableEdit && (
               <button
                 onClick={() => handleEdit(row)}
-                className="text-blue-600 hover:text-blue-800"
+                className="text-blue-600 hover:text-blue-800 bg-blue-200 p-1 rounded"
                 title="Edit"
               >
-                <FiEdit2 />
+                <FiEdit2 className="text-lg" />
               </button>
             )}
 
             {enableDelete && (
               <button
                 onClick={() => handleDelete(row)}
-                className="text-red-600 hover:text-red-800"
+                className="text-red-600 hover:text-red-800 bg-red-200 p-1 rounded"
                 title="Delete"
               >
-                <FiTrash2 />
+                <FiTrash2 className="text-lg" />
               </button>
             )}
           </div>

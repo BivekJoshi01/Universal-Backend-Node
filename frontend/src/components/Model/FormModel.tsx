@@ -26,7 +26,7 @@ const FormModel: React.FC<FormModelProps> = ({
       onClick={handleOutsideClick}
     >
       <div
-        className={`bg-foreground w-full sm:w-auto max-w-[95%] rounded-lg shadow-lg p-4 transition ${
+        className={`bg-foreground w-full min-w-[40%] sm:w-auto max-w-[95%] rounded-lg shadow-lg p-4 transition ${
           isShaking ? "shake" : ""
         }`}
         onClick={(e) => e.stopPropagation()}

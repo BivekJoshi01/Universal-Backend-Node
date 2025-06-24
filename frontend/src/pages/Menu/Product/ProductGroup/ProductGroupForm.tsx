@@ -53,6 +53,17 @@ const ProductGroupForm: React.FC<ProductGroupFormProps> = ({ onClose }) => {
         label: type.name,
       })) || [],
     },
+    // {
+    //   name: "areaId",
+    //   type: "autoCompleteSelectGetRequestField",
+    //   apiPath: "api/inventory/productType/getAll",
+    //   optionLabel: "areaShortName",
+    //   optionValue: "_id",
+    //   placeholder: "Select area",
+    //   label: "Area",
+    //   required: true,
+    //   gridClass: "col-span-1",
+    // },
     {
       name: "description",
       type: "textarea",

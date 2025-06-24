@@ -33,6 +33,7 @@ import SupplierOtherParty from "../pages/Menu/Customer/SupplierOtherParty/Suppli
 
 import Profile from "../pages/Auth/Profile/Profile";
 import SelfChangePassword from "../pages/Auth/SelfChangePassword/SelfChangePassword";
+import ProductType from "../pages/Menu/Product/ProductType/ProductType";
 
 export const MenuRoutesConfig = [
   {
@@ -71,6 +72,7 @@ export const MenuRoutesConfig = [
           { path: "Product Management", element: ProductManagement },
           { path: "Product Company", element: ProductCompany },
           { path: "Product Group", element: ProductGroup },
+          { path: "Product Type", element: ProductType },
           { path: "Unit of Measurement", element: UnitOfMeasurement },
         ],
       },

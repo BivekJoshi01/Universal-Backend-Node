@@ -41,6 +41,7 @@ export const getRoutesByHeadTab = ({ headTab }: { headTab: string }) => {
             { Icon: FiClipboard, title: "Product Management" },
             { Icon: FiClipboard, title: "Product Company" },
             { Icon: FiClipboard, title: "Product Group" },
+            { Icon: FiClipboard, title: "Product Type" },
             { Icon: FiClipboard, title: "Unit of Measurement" },
           ],
         },

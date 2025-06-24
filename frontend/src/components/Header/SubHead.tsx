@@ -15,8 +15,8 @@ import { IoSettingsOutline } from "react-icons/io5";
 // Menu config (reusable items except "Home")
 const menuItems = [
   {
-    label: "Components",
-    links: [],
+    label: "Note",
+    href: "/docs",
   },
   {
     label: "Docs",
@@ -31,8 +31,8 @@ const menuItems = [
     links: ["Components", "Documentation", "Blocks"],
   },
   {
-    label: "With Icon",
-    links: ["Backlog", "To Do", "Done"],
+    label: "Letter Head",
+    href: "/docs",
   },
 ];
 
@@ -95,7 +95,7 @@ const SubHead = () => {
                       <NavigationMenuContent>
                         <ul className="grid w-[200px] gap-4">
                           <li>
-                            {item.links.map((text) => (
+                            {item?.links.map((text) => (
                               <NavigationMenuLink asChild key={text}>
                                 <Link href="#" className="flex-row items-center gap-2">
                                   {text}
