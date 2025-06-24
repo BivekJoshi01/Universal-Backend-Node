@@ -12,7 +12,7 @@ export const createProductGroup = expressAsyncHandler(async (req, res) => {
 
 export const getProductGroups = expressAsyncHandler(async (req, res) => {
   const productGroups = await ProductGroup.find()
-    .populate("typeId", "name shortName"); 
+    .populate("typeId", "name description"); 
   res.status(200).json(productGroups);
 });
 
@@ -28,7 +28,7 @@ export const getProductGroupPaginatedPost = expressAsyncHandler(
       .limit(Number(pageSize))
       .skip(Number(pageSize) * (Number(pageNumber) - 1))
       .sort({ createdAt: -1 })
-      .populate("typeId", "name shortName");
+      .populate("typeId", "name description");
 
     res.status(200).json({
       productGroups,

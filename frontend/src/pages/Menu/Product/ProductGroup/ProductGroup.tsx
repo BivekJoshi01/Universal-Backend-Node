@@ -4,6 +4,7 @@ import React, { useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { FiPlus } from "react-icons/fi";
 import { useSearchProductGroupsHook } from "../../../../api/product/productGroup/productGroup-hook";
+import { CustomPaginationSearchTable } from "../../../../components/CustomPagination/CustomPaginationSearchTable";
 import CustomTable from "../../../../components/CustomTable/CustomTable";
 import FilterSearch from "../../../../components/FilterSearch/FilterSearch";
 import Header from "../../../../components/Header/Header";
@@ -26,7 +27,6 @@ const ProductGroup: React.FC = () => {
     data: productGroupData,
     isPending,
   } = useSearchProductGroupsHook();
-  // console.log(productGroupData.productGroups);
 
   const onSearch = (formData: any) => {
     mutate({ formData: { ...formData, ...pagination } });
@@ -52,6 +52,11 @@ const ProductGroup: React.FC = () => {
         id: nanoid(),
         accessorKey: "description",
         header: "Description",
+      },
+      {
+        id: nanoid(),
+        accessorKey: "typeId.name",
+        header: "Product Type",
       },
     ],
     []
@@ -90,6 +95,15 @@ const ProductGroup: React.FC = () => {
         data={productGroupData?.productGroups || []}
         enableRowNumbers
         isLoading={isPending}
+      />
+      <CustomPaginationSearchTable
+        totalPages={productGroupData?.pages}
+        currentPage={pagination.pageNumber}
+        totalElements={productGroupData?.totalElements}
+        pageSize={pagination.pageSize}
+        onPaginationChange={(updatedPagination) =>
+          setPagination(updatedPagination)
+        }
       />
     </>
   );
