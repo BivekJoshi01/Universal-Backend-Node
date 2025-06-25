@@ -1,13 +1,14 @@
 import { yupResolver } from "@hookform/resolvers/yup";
-import React from "react";
-import { useForm } from "react-hook-form";
+import React, { useCallback, useEffect } from "react";
+import { SubmitHandler, useForm } from "react-hook-form";
 import RenderInput, {
   InputField,
 } from "../../../../components/RenderInput/RenderInput";
 import * as yup from "yup";
-import { useAddProductCompanyHook } from "../../../../api/product/productCompany/productCompany-hook";
+import { useAddProductCompanyHook, useGetProductCompanyByIdHook, useUpdateProductCompanyHook } from "../../../../api/product/productCompany/productCompany-hook";
 import { IoClose } from "react-icons/io5";
 import { FiCamera } from "react-icons/fi";
+import { Button } from "../../../../components/Button/button";
 
 const validationSchema = yup.object().shape({
   name: yup.string().required("Company name is required"),
@@ -79,33 +80,75 @@ const inputFields: InputField[] = [
 ];
 
 interface ProductCompanyFormProps {
+  selectedRowId?: string;
   onClose: () => void;
 }
 
-const ProductCompanyForm: React.FC<ProductCompanyFormProps> = ({ onClose }) => {
+const ProductCompanyForm: React.FC<ProductCompanyFormProps> = ({ selectedRowId, onClose }) => {
+  const id = selectedRowId ?? "";
+  const { data, isLoading: isFetching } = useGetProductCompanyByIdHook(id);
+
   const {
     register,
     control,
     handleSubmit,
     formState: { errors },
-    watch,
+    reset,
   } = useForm({
     resolver: yupResolver(validationSchema),
   });
 
-  const watchedValues = watch();
-  console.log("🚀 ~ watchedValues:", watchedValues);
+  const { mutate: addMutate, isPending: isAdding } = useAddProductCompanyHook();
+  const { mutate: updateMutate, isPending: isUpdating } = useUpdateProductCompanyHook();
 
-  const { mutate } = useAddProductCompanyHook();
+  useEffect(() => {
+    if (data) {
+      reset({
+        name: data.name ?? "",
+        street: data?.street ?? "",
+        city: data?.city ?? "",
+        country: data?.country ?? "",
+        contactPerson: data?.contactPerson ?? "",
+        email: data?.email ?? "",
+        phoneNumber: data.phoneNumber ?? "",
+      });
+    } else {
+      reset({
+        name: "",
+        street: "",
+        city: "",
+        country: "",
+        contactPerson: "",
+        email: "",
+        phoneNumber: "",
+      });
+    }
+  }, [data, reset]);
 
-  const onSubmit = (data: object) => {
-    mutate(
-      { formData: data },
-      {
-        onSuccess: () => onClose(),
-      }
-    );
+  const handleClose = useCallback(() => {
+    reset();
+    onClose();
+  }, [reset, onClose]);
+
+  const onSubmit: SubmitHandler<any> = (formData) => {
+    if (id) {
+      updateMutate(
+        { id, formData },
+        {
+          onSuccess: handleClose,
+        }
+      );
+    } else {
+      addMutate(
+        { formData },
+        {
+          onSuccess: handleClose,
+        }
+      );
+    }
   };
+
+  const isSubmitting = isAdding || isUpdating;
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -124,12 +167,12 @@ const ProductCompanyForm: React.FC<ProductCompanyFormProps> = ({ onClose }) => {
         >
           <IoClose /> <span>Close</span>
         </button>
-        <button
-          className="flex text-sm items-center gap-2 bg-green-300 transition-colors hover:bg-green-400 px-3 py-1.5 rounded"
+        <Button
           type="submit"
+          disabled={isSubmitting || isFetching}
         >
-          <FiCamera /> <span>Submit</span>
-        </button>
+          <FiCamera /> <span>{id ? "Update" : "Submit"}</span>
+        </Button>
       </div>
     </form>
   );

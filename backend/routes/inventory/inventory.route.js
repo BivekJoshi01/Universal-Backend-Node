@@ -4,6 +4,9 @@ import {
   createUnitOfMeasurement,
   getUnitOfMeasurements,
   getUnitOfMeasurementPaginatedPost,
+  getUnitOfMeasurementById,
+  updateUnitOfMeasurement,
+  deleteUnitOfMeasurement,
 } from "../../controllers/inventoryC/productC/unitOfMeasurement.contoller.js";
 
 import {
@@ -51,6 +54,9 @@ const router = express.Router();
 router.route("/unitOfMeasurement/create").post(createUnitOfMeasurement);
 router.route("/unitOfMeasurement/getAll").get(getUnitOfMeasurements);
 router.route("/unitOfMeasurement/search").post(getUnitOfMeasurementPaginatedPost);
+router.route("/unitOfMeasurement/:id").get(getUnitOfMeasurementById);
+router.route("/unitOfMeasurement/:id").put(updateUnitOfMeasurement);
+router.route("/unitOfMeasurement/:id").delete(deleteUnitOfMeasurement);
 
 // Product Type routes
 router.route("/productType/create").post(createProductType);
