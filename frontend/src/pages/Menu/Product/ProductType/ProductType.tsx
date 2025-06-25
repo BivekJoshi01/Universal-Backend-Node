@@ -47,7 +47,6 @@ const ProductType: React.FC = () => {
       isFirstRender.current = false;
       return;
     }
-
     mutate({ formData: { ...searchKeyword, ...pagination } });
   }, [pagination]);
 

@@ -1,127 +1,87 @@
-import { nanoid } from "@reduxjs/toolkit";
 import { MRT_ColumnDef } from "material-react-table";
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { FiPlus } from "react-icons/fi";
-import { useSearchProductCompaniesHook } from "../../../../api/product/productCompany/productCompany-hook";
+import { useDeleteProductCompanyHook, useSearchProductCompaniesHook } from "../../../../api/product/productCompany/productCompany-hook";
 import { CustomPaginationSearchTable } from "../../../../components/CustomPagination/CustomPaginationSearchTable";
 import CustomTable from "../../../../components/CustomTable/CustomTable";
 import FilterSearch from "../../../../components/FilterSearch/FilterSearch";
 import Header from "../../../../components/Header/Header";
-import ProductCompantForm from "./ProductCompanyForm";
-
-type Person = {
-  name: {
-    firstName: string;
-    lastName: string;
-  };
-  address: string;
-};
+import ProductCompanyForm from "./ProductCompanyForm";
+import DeleteConfirmationModel from "../../../../components/Model/DeleteConfirmationModel";
+import FormModel from "../../../../components/Model/FormModel";
 
 const ProductCompany: React.FC = () => {
   const [openModel, setOpenModel] = useState(false);
-  const [pagination, setPagination] = useState<any>({
-    pageSize: 10,
-    pageNumber: 1,
-  });
+  const [pagination, setPagination] = useState({ pageSize: 10, pageNumber: 1 });
+  const [searchKeyword, setSearchKeyword] = useState<Record<string, any>>({});
+  const [openDeleteModel, setOpenDeleteModel] = useState(false);
+  const [openEditModel, setOpenEditModel] = useState(false);
+  const [selectedItem, setSelectedItem] = useState<any>(null);
+
+  const isFirstRender = useRef(true);
 
   const {
     register,
     handleSubmit,
+    control,
     formState: { errors },
   } = useForm();
+
   const {
     mutate,
     data: productCompanyData,
     isPending,
   } = useSearchProductCompaniesHook();
 
+  const { mutate: deleteMutate } = useDeleteProductCompanyHook()
+
   const onSearch = (formData: any) => {
+    setSearchKeyword(formData);
     mutate({ formData: { ...formData, ...pagination } });
   };
 
   useEffect(() => {
-    mutate({ formData: pagination });
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      return;
+    }
+    mutate({ formData: { ...searchKeyword, ...pagination } });
   }, [pagination]);
 
   const columns = useMemo<MRT_ColumnDef<any>[]>(
     () => [
       {
-        id: nanoid(),
         accessorKey: "name",
         header: "Company Name",
       },
       {
-        id: nanoid(),
         accessorKey: "street",
         header: "Street",
       },
       {
-        id: nanoid(),
         accessorKey: "city",
         header: "City",
       },
       {
-        id: nanoid(),
         accessorKey: "country",
         header: "Country",
       },
       {
-        id: nanoid(),
         accessorKey: "contactPerson",
         header: "Contact",
       },
       {
-        id: nanoid(),
         accessorKey: "email",
         header: "Email",
       },
       {
-        id: nanoid(),
         accessorKey: "phoneNumber",
         header: "phoneNumber",
       },
     ],
     []
   );
-
-  // const data: Person[] = [
-  //   {
-  //     name: {
-  //       firstName: "John",
-  //       lastName: "Doe",
-  //     },
-  //     address: "261 Erdman Ford",
-  //   },
-  //   {
-  //     name: {
-  //       firstName: "Jane",
-  //       lastName: "Doe",
-  //     },
-  //     address: "769 Dominic Grove",
-  //   },
-  //   {
-  //     name: {
-  //       firstName: "Joe",
-  //       lastName: "Doe",
-  //     },
-  //     address: "566 Brakus Inlet",
-  //   },
-  //   {
-  //     name: {
-  //       firstName: "Kevin",
-  //       lastName: "Vandy",
-  //     },
-  //     address: "722 Emie Stream",
-  //   },
-  //   {
-  //     name: {
-  //       firstName: "Joshua",
-  //       lastName: "Rolluffs",
-  //     },
-  //     address: "32188 Larkin Turnpike",
-  //   },
-  // ];
 
   const inputFields = [
     {
@@ -133,30 +93,54 @@ const ProductCompany: React.FC = () => {
     },
   ];
 
+  const handleDelete = (row: any) => {
+    setSelectedItem(row?.original);
+    setOpenDeleteModel(true);
+  };
+
+  const handleEdit = (row: any) => {
+    setSelectedItem(row?.original);
+    setOpenEditModel(true);
+  };
+
   return (
     <>
       <Header
-        modelWidth="40%"
         modelTitle="Product Company"
         buttonTitle="Add Product Company"
         buttonIcon={<FiPlus />}
         openModel={openModel}
         setOpenModel={setOpenModel}
       >
-        <ProductCompantForm onClose={() => setOpenModel(false)} />
+        <ProductCompanyForm
+          onClose={() => {
+            setOpenModel(false);
+            mutate({ formData: { ...searchKeyword, ...pagination } });
+          }}
+        />
       </Header>
+
       <FilterSearch
         inputFields={inputFields}
         register={register}
         errors={errors}
+        control={control}
         onSubmit={handleSubmit(onSearch)}
       />
       <CustomTable
         columns={columns}
         data={productCompanyData?.productCompanies || []}
-        isLoading={isPending}
         enableRowNumbers
+        isLoading={isPending}
+        enableColumnActions
+        enableEditing={true}
+        enableRowActions={true}
+        enableEdit={true}
+        enableDelete={true}
+        handleDelete={handleDelete}
+        handleEdit={handleEdit}
       />
+
       <CustomPaginationSearchTable
         totalPages={productCompanyData?.pages}
         currentPage={pagination.pageNumber}
@@ -166,6 +150,30 @@ const ProductCompany: React.FC = () => {
           setPagination(updatedPagination)
         }
       />
+
+      <DeleteConfirmationModel
+        open={openDeleteModel}
+        close={() => setOpenDeleteModel(false)}
+        onConfirm={() => {
+          if (!selectedItem?._id) return;
+          deleteMutate(selectedItem?._id, {
+            onSuccess: () => {
+              mutate({ formData: { ...searchKeyword, ...pagination } });
+              setOpenDeleteModel(false);
+            },
+          });
+        }}
+      />
+
+      <FormModel open={openEditModel} modelTitle="Edit Product Company">
+        <ProductCompanyForm
+          selectedRowId={selectedItem?._id}
+          onClose={() => {
+            setOpenEditModel(false);
+            mutate({ formData: { ...searchKeyword, ...pagination } });
+          }}
+        />
+      </FormModel>
     </>
   );
 };

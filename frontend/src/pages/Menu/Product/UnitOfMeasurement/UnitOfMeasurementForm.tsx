@@ -1,13 +1,14 @@
 import { yupResolver } from "@hookform/resolvers/yup";
-import React from "react";
-import { useForm } from "react-hook-form";
+import React, { useCallback, useEffect } from "react";
+import { SubmitHandler, useForm } from "react-hook-form";
 import RenderInput, {
   InputField,
 } from "../../../../components/RenderInput/RenderInput";
 import * as yup from "yup";
-import { useAddUnitOfMeasurementHook } from "../../../../api/product/unitOfMeasurement/unitOfMeasurement-hook";
+import { useAddUnitOfMeasurementHook, useGetUnitOfMeasurementByIdHook, useUpdateUnitOfMeasurementHook } from "../../../../api/product/unitOfMeasurement/unitOfMeasurement-hook";
 import { IoClose } from "react-icons/io5";
-import { FiCamera } from "react-icons/fi";
+import { Button } from "../../../../components/Button/button";
+import { Separator } from "../../../../components/ui/separator";
 
 const validationSchema = yup.object().shape({
   unitCategory: yup.string().required("Unit Category is required"),
@@ -43,35 +44,69 @@ const inputFields: InputField[] = [
 ];
 
 interface UnitOfMeasurementFormProps {
+  selectedRowId?: string;
   onClose: () => void;
 }
 
 const UnitOfMeasurementForm: React.FC<UnitOfMeasurementFormProps> = ({
+  selectedRowId,
   onClose,
 }) => {
+  const id = selectedRowId ?? "";
+  const { data, isLoading: isFetching } = useGetUnitOfMeasurementByIdHook(id);
+
   const {
     register,
     control,
     handleSubmit,
     formState: { errors },
-    watch,
+    reset,
   } = useForm({
     resolver: yupResolver(validationSchema),
   });
 
-  const watchedValues = watch();
-  console.log("🚀 ~ watchedValues:", watchedValues);
+  const { mutate: addMutate, isPending: isAdding } = useAddUnitOfMeasurementHook();
+  const { mutate: updateMutate, isPending: isUpdating } = useUpdateUnitOfMeasurementHook();
 
-  const { mutate } = useAddUnitOfMeasurementHook();
+  useEffect(() => {
+    if (data) {
+      reset({
+        unitCategory: data.unitCategory ?? "",
+        baseUnit: data.baseUnit ?? "",
+        contain: data.contain ?? ""
+      });
+    } else {
+      reset({
+        unitCategory: "",
+        baseUnit: "",
+        contain: ""
+      });
+    }
+  }, [data, reset]);
 
-  const onSubmit = (data: object) => {
-    mutate(
-      { formData: data },
-      {
-        onSuccess: () => onClose(),
-      }
-    );
+  const handleClose = useCallback(() => {
+    reset();
+    onClose();
+  }, [reset, onClose]);
+
+  const onSubmit: SubmitHandler<any> = (formData) => {
+    if (id) {
+      updateMutate(
+        { id, formData },
+        {
+          onSuccess: handleClose,
+        }
+      );
+    } else {
+      addMutate(
+        { formData },
+        {
+          onSuccess: handleClose,
+        }
+      );
+    }
   };
+  const isSubmitting = isAdding || isUpdating;
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -82,20 +117,21 @@ const UnitOfMeasurementForm: React.FC<UnitOfMeasurementFormProps> = ({
         control={control}
       />
 
-      <div className="col-span-2 md:col-span-4 flex justify-between items-center border-t pt-2 border-stone-300">
-        <button
-          type="button"
-          className="flex text-sm items-center gap-2 bg-red-300 transition-colors hover:bg-red-400 px-3 py-1.5 rounded"
+      <Separator className="my-2" />
+
+      <div className="flex justify-end gap-2.5">
+        <Button
+          variant="outline"
           onClick={onClose}
         >
           <IoClose /> <span>Close</span>
-        </button>
-        <button
-          className="flex text-sm items-center gap-2 bg-green-300 transition-colors hover:bg-green-400 px-3 py-1.5 rounded"
+        </Button>
+        <Button
           type="submit"
+          disabled={isSubmitting || isFetching}
         >
-          <FiCamera /> <span>Submit</span>
-        </button>
+          <span>{id ? "Update" : "Submit"}</span>
+        </Button>
       </div>
     </form>
   );

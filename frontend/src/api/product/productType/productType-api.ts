@@ -35,11 +35,15 @@ export const updateProductType = async (id: string, formData: object) => {
 };
 
 export const deleteProductType = async (id: string) => {
-  const { data } = await axiosInstance.delete(`api/inventory/productType/${id}`);
+  const { data } = await axiosInstance.delete(
+    `api/inventory/productType/${id}`
+  );
   return data;
 };
 
 export const searchProductTypesByKeyword = async (keyword: string) => {
-  const { data } = await axiosInstance.get(`api/inventory/productType/keyword?keyword=${keyword}`);
+  const { data } = await axiosInstance.get(
+    `api/inventory/productType/keyword?keyword=${keyword}`
+  );
   return data;
 };
