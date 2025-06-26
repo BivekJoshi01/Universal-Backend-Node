@@ -64,8 +64,8 @@ const ProductManagement: React.FC = () => {
   return (
     <div>
       <Header
-        modelTitle="Product Company"
-        buttonTitle="Add Product Company"
+        modelTitle="Add Product"
+        buttonTitle="Add Product"
         buttonIcon={<FiPlus />}
         openModel={openModel}
         setOpenModel={setOpenModel}

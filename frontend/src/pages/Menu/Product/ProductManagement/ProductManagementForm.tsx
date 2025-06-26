@@ -31,6 +31,17 @@ const inputFields: InputField[] = [
     required: true,
     gridClass: "col-span-4",
   },
+  {
+    name: "agentId",
+    type: "autoCompleteSelectGetRequestField",
+    apiPath: "api/core/agent/getAll",
+    optionLabel: "agentDetail",
+    optionValue: "_id",
+    placeholder: "Select agent",
+    label: "Agent",
+    required: true,
+    gridClass: "col-span-4",
+  },
 ];
 
 interface ProductManagementFormProps {
