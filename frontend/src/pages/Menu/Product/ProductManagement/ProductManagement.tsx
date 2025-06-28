@@ -137,7 +137,10 @@ const ProductManagement: React.FC = () => {
         openModel={openModel}
         setOpenModel={setOpenModel}
       >
-        <ProductManagementForm onClose={() => setOpenModel(false)} />
+        <ProductManagementForm onClose={() => {
+          setOpenEditModel(false);
+          mutate({ formData: { ...searchKeyword, ...pagination } });
+        }} />
       </Header>
       <FilterSearch
         inputFields={inputFields}

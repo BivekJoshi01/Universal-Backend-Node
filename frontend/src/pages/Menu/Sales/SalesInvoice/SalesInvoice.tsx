@@ -1,9 +1,45 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Header from "../../../../components/Header/Header";
 import HorizontalButtonCarousel from "./HorizontalButtonCarousel";
-import { Input } from "../../../../components/RenderInput/Fields/input";
+import { useSearchProductManagementsHook } from "../../../../api/product/productManagement/productManagement-hook";
+import { useForm } from "react-hook-form";
+import SearchLayoutSalesFeild from "./SearchLayoutSalesFeild";
+import HorizontalProgressLoader from "../../../../components/Loader/HorizontalProgressLoader";
+import { CustomPaginationSearchTable } from "../../../../components/CustomPagination/CustomPaginationSearchTable";
+import ProductCardUI from "./InvoiceLayout/ProductCardUI";
+import BillLayout from "./InvoiceLayout/BillLayout";
 
 const SalesInvoice: React.FC = () => {
+  const [selectedProductGroupId, setSelectedProductGroupId] = useState(null);
+  console.log("🚀 ~ selectedProductGroupId:", selectedProductGroupId)
+  const [pagination, setPagination] = useState<any>({
+    pageSize: 10,
+    pageNumber: 1,
+  });
+
+  const {
+    register,
+    handleSubmit,
+    control,
+    formState: { errors },
+  } = useForm();
+
+  const {
+    mutate,
+    data: productManagementData,
+    isPending,
+  } = useSearchProductManagementsHook();
+
+useEffect(() => {
+  mutate({
+    formData: {
+      ...pagination,
+      productGroup: selectedProductGroupId,
+    }
+  });
+}, [mutate, pagination, selectedProductGroupId]);
+
+
   return (
     <>
       <Header>
@@ -12,23 +48,37 @@ const SalesInvoice: React.FC = () => {
 
       <div className="grid grid-cols-10 gap-3">
         <div className="col-span-7 bg-background">
-          <HorizontalButtonCarousel />
+          <HorizontalButtonCarousel setSelectedProductGroupId={setSelectedProductGroupId} />
+
           <div className="bg-foreground p-2">
-            <Input />
+            <SearchLayoutSalesFeild register={register} control={control} errors={errors} />
           </div>
-          <div className="space-y-4 p-2"></div>
+
+          <div className="p-2 grid grid-cols-12 gap-1">
+            {isPending ? <HorizontalProgressLoader /> :
+              productManagementData?.productManagements?.map((pm: any) => {
+                return (
+                  <div className="col-span-3" key={pm._id}>
+                    <ProductCardUI pm={pm} />
+                  </div>
+                )
+              })
+            }
+
+          </div>
+          <CustomPaginationSearchTable
+            totalPages={productManagementData?.pages}
+            currentPage={pagination.pageNumber}
+            totalElements={productManagementData?.totalElements}
+            pageSize={pagination.pageSize}
+            onPaginationChange={(updatedPagination) =>
+              setPagination(updatedPagination)
+            }
+          />
         </div>
 
         <div className="col-span-3 border border-gray-200">
-          <p className="text-gray-600">
-            <strong>Product:</strong> Product 1
-          </p>
-          <p className="text-gray-600">
-            <strong>Quantity:</strong> 2
-          </p>
-          <p className="text-gray-600">
-            <strong>Price:</strong> $50.00
-          </p>
+          <BillLayout />
         </div>
       </div>
     </>

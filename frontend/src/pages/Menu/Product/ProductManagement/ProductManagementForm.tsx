@@ -11,7 +11,6 @@ import { useGetAllSuppliersHook } from "../../../../api/customerSupplier/supplie
 import { useGetAllProductCompaniesHook } from "../../../../api/product/productCompany/productCompany-hook";
 import { useGetAllProductGroupsHook } from "../../../../api/product/productGroup/productGroup-hook";
 import { useGetAllUnitOfMeasurementHook } from "../../../../api/product/unitOfMeasurement/unitOfMeasurement-hook";
-import { InputField } from "../../../../components/RenderInput/RenderInput";
 import ProductManagementFields, { productManagemetSchema } from "./ProductManagementFeilds";
 import { Button } from "../../../../components/Button/button";
 import { Separator } from "../../../../components/ui/separator";
