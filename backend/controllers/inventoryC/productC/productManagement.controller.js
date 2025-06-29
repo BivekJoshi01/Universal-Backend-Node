@@ -21,6 +21,11 @@ export const getProductManagementPaginatedPost = expressAsyncHandler(
   async (req, res) => {
     const { pageSize = 10, pageNumber = 1, ...searchFields } = req.body;
 
+    if (searchFields.productGroupId) {
+      searchFields.productGroup = searchFields.productGroupId;
+      delete searchFields.productGroupId;
+    }
+
     const searchCondition = buildSearchConditions(searchFields);
 
     const count = await ProductManagement.countDocuments(searchCondition);
@@ -42,6 +47,7 @@ export const getProductManagementPaginatedPost = expressAsyncHandler(
     });
   }
 );
+
 
 export const getProductManagementById = expressAsyncHandler(async (req, res) => {
   const productManagement = await ProductManagement.findById(req.params.id);
