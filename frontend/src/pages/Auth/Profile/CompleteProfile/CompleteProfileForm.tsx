@@ -8,6 +8,7 @@ import * as yup from "yup";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../../redux/store";
 import { useAddCustomerHook } from "../../../../api/customerSupplier/customer/customer-hook";
+import { useGetLoggedUserData } from "../../../../api/auth/auth-hook";
 
 const validationSchema = yup.object().shape({
   // Add validation if needed
@@ -26,37 +27,42 @@ const CompleteProfileForm: React.FC = () => {
     resolver: yupResolver(validationSchema),
   });
 
+  const { data: loggedUserData } = useGetLoggedUserData();
+  console.log("🚀 ~ loggedUserData:", loggedUserData?.user)
+
+
   useEffect(() => {
-    if (loggedUsersData) {
+    if (loggedUserData) {
       reset({
-        customerDetail: loggedUsersData?.name || "",
-        email: loggedUsersData?.email || "",
+        // customerDetail: loggedUsersData?.name || "",
+        // email: loggedUsersData?.email || "",
+        userId: loggedUserData?.user?._id,
         isRetailer: false,
         isActive: false,
         // creditLimit: 0,
       });
     }
-  }, [loggedUsersData, reset]);
+  }, [loggedUserData, reset]);
 
   const isRetailer = useWatch({ control, name: "isRetailer" });
 
   const baseFields: InputField[] = [
-    {
-      name: "customerDetail",
-      type: "text",
-      placeholder: "Enter customer name",
-      label: "Customer Name",
-      required: true,
-      gridClass: "col-span-4",
-    },
-    {
-      name: "email",
-      type: "email",
-      placeholder: "Enter email",
-      label: "Email",
-      required: true,
-      gridClass: "col-span-4",
-    },
+    // {
+    //   name: "customerDetail",
+    //   type: "text",
+    //   placeholder: "Enter customer name",
+    //   label: "Customer Name",
+    //   required: true,
+    //   gridClass: "col-span-4",
+    // },
+    // {
+    //   name: "email",
+    //   type: "email",
+    //   placeholder: "Enter email",
+    //   label: "Email",
+    //   required: true,
+    //   gridClass: "col-span-4",
+    // },
     {
       name: "phoneNumber",
       type: "text",

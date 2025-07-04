@@ -1,4 +1,3 @@
-
 interface BillData {
   cartItems: any[];
   subTotal: number;
@@ -85,6 +84,9 @@ export const PrintSaleBillLayout = ({
             color: #111827;
             border-bottom: none;
           }
+          .center {
+            text-align: center;
+          }
         </style>
       </head>
       <body>
@@ -106,6 +108,11 @@ export const PrintSaleBillLayout = ({
           <p><strong>Date:</strong> 2025-02-02</p>
         </div>
 
+          <div class="info" style="display: flex; justify-content: space-between;">
+          <p>Bill To : <strong>Bivek Joshi</strong> (9865466989)</p>
+          <p><strong>CustomerID: </strong> ATGHV65</p>
+        </div>
+
         <table>
           <thead>
             <tr>
@@ -119,8 +126,8 @@ export const PrintSaleBillLayout = ({
           </thead>
           <tbody>
             ${billData.cartItems
-      .map(
-        (item, index) => `
+              .map(
+                (item, index) => `
               <tr>
                 <td>${index + 1}</td>
                 <td>${item.productName}</td>
@@ -130,8 +137,8 @@ export const PrintSaleBillLayout = ({
                 <td>${item.totalPrice.toFixed(2)}</td>
               </tr>
             `
-      )
-      .join("")}
+              )
+              .join("")}
           </tbody>
         </table>
 
@@ -141,26 +148,36 @@ export const PrintSaleBillLayout = ({
             <span>Rs. ${billData.subTotal.toFixed(2)}</span>
           </div>
 
-          ${billData.isVATChecked
-      ? `<div class="totals-row">
+          ${
+            billData.isVATChecked
+              ? `<div class="totals-row">
                   <span>VAT (${billData.vatPercent}%)</span>
                   <span>Rs. ${billData.tax.toFixed(2)}</span>
                 </div>`
-      : ""
-    }
+              : ""
+          }
 
-          ${billData.isDISCOUNTChecked
-      ? `<div class="totals-row">
-                  <span>Discount (${billData.discountAmount > 0 ? `Amt` : `${billData.discountPercent}%`})</span>
+          ${
+            billData.isDISCOUNTChecked
+              ? `<div class="totals-row">
+                  <span>Discount (${
+                    billData.discountAmount > 0
+                      ? `Amt`
+                      : `${billData.discountPercent}%`
+                  })</span>
                   <span>Rs. ${billData.discountValue.toFixed(2)}</span>
                 </div>`
-      : ""
-    }
-
+              : ""
+          }
           <div class="totals-row">
             <span>Grand Total</span>
             <span>Rs. ${billData.grandTotal.toFixed(2)}</span>
           </div>
+        <div class="center">By: <b>Sanjeev Shrestha</b></div>
+        <div class="center">Thanks for shopping with us!</div>
+        <div class="center">
+          We hope our stationery adds a spark to your creativity.
+        </div>
         </div>
       </body>
     </html>

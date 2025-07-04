@@ -9,6 +9,7 @@ import BillSalesUI from "./BillSalesUI";
 import { useForm } from "react-hook-form";
 import { useAddSalesRecordHook } from "../../../../../api/buySell/sell/sell-hook";
 import { PrintSaleBillLayout } from "../../SalesHelper/PrintSaleBillLayout";
+import { PrintableSalesBillLayout } from "../../SalesHelper/PrintableSalesBillLayout";
 
 const BillLayout = () => {
   const cartItems = useSelector((state: RootState) => state.purchaseCart.items);
@@ -107,8 +108,8 @@ const BillLayout = () => {
       grandTotal,
     };
 
-    const htmlContent = PrintSaleBillLayout({ billData, logoBase64 });
-    // const htmlContent = PrintableSalesBillLayout({ billData, logoBase64 });
+    // const htmlContent = PrintSaleBillLayout({ billData, logoBase64 });
+    const htmlContent = PrintableSalesBillLayout({ billData, logoBase64 });
 
     const iframe = document.createElement("iframe");
     iframe.style.position = "fixed";

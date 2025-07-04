@@ -3,7 +3,13 @@ import mongoose from "mongoose";
 
 const customerSchema = new mongoose.Schema(
   {
-    customerDetail: { type: String, required: true },
+    userId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User", 
+      required: true,
+    },
+
+    // customerDetail: { type: String, required: true },
 
     street: { type: String, required: true },
     city: { type: String, required: true },
@@ -14,7 +20,7 @@ const customerSchema = new mongoose.Schema(
     isRetailer: { type: Boolean, required: true },
 
     contactPerson: { type: String, required: false },
-    email: { type: String, required: true, unique: true },
+    // email: { type: String, required: true, unique: true },
     phoneNumber: { type: String, required: true },
 
     agentId: {

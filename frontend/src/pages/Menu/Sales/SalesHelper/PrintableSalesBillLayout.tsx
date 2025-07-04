@@ -1,25 +1,24 @@
-
 interface BillData {
-    cartItems: any[];
-    subTotal: number;
-    tax: number;
-    vatPercent: number;
-    isVATChecked: boolean;
-    discountAmount: number;
-    discountPercent: number;
-    discountValue: number;
-    isDISCOUNTChecked: boolean;
-    grandTotal: number;
+  cartItems: any[];
+  subTotal: number;
+  tax: number;
+  vatPercent: number;
+  isVATChecked: boolean;
+  discountAmount: number;
+  discountPercent: number;
+  discountValue: number;
+  isDISCOUNTChecked: boolean;
+  grandTotal: number;
 }
 
 export const PrintableSalesBillLayout = ({
-    billData,
-    logoBase64,
+  billData,
+  logoBase64,
 }: {
-    billData: BillData;
-    logoBase64: string;
+  billData: BillData;
+  logoBase64: string;
 }) => {
-    return `
+  return `
     <html>
       <head>
         <title>Receipt</title>
@@ -70,25 +69,28 @@ export const PrintableSalesBillLayout = ({
           <div>Bill No: Q-2025-001</div>
           <div>Date: ${new Date().toLocaleDateString()}</div>
         </div>
+        <div>
+          <div>Bill To: <b>Bivek Joshi</b></div>
+        </div>
 
         <div class="divider"></div>
 
         <table class="items" width="100%">
           <tbody>
             ${billData.cartItems
-            .map(
-                (item, index) => `
+      .map(
+        (item, index) => `
               <tr>
                 <td colspan="3">${index + 1}. ${item.productName}</td>
               </tr>
               <tr>
                 <td>${item.quantity} x ${item.price.toFixed(2)}</td>
-                <td align="right">Rs.</td>
+                <td align="right">${item.unit}</td>
                 <td align="right">${item.totalPrice.toFixed(2)}</td>
               </tr>
             `
-            )
-            .join("")}
+      )
+      .join("")}
           </tbody>
         </table>
 
@@ -101,20 +103,20 @@ export const PrintableSalesBillLayout = ({
           </div>
 
           ${billData.isVATChecked
-            ? `<div class="totals-row">
+      ? `<div class="totals-row">
                   <span>VAT (${billData.vatPercent}%):</span>
                   <span>Rs. ${billData.tax.toFixed(2)}</span>
                 </div>`
-            : ""
-        }
+      : ""
+    }
 
           ${billData.isDISCOUNTChecked
-            ? `<div class="totals-row">
+      ? `<div class="totals-row">
                   <span>Discount:</span>
                   <span>Rs. ${billData.discountValue.toFixed(2)}</span>
                 </div>`
-            : ""
-        }
+      : ""
+    }
 
           <div class="totals-row" style="font-weight: bold;">
             <span>Grand Total:</span>
@@ -123,7 +125,9 @@ export const PrintableSalesBillLayout = ({
         </div>
 
         <div class="divider"></div>
-        <div class="center">Thank you for your purchase!</div>
+        <div class="center">By: <b>Sanjeev Shrestha</b></div>
+        <div class="center">Thanks for shopping with us!</div>
+        <div class="center">**Customer Copy**</div>
       </body>
     </html>
   `;

@@ -13,7 +13,8 @@ export const createCustomer = expressAsyncHandler(async (req, res) => {
 export const getCustomers = expressAsyncHandler(async (req, res) => {
   const customers = await Customer.find()
     .populate("areaId", "areaDetail areaShortName") // populate areaId with name
-    .populate("agentId", "agentDetail"); // populate agentId with selected fields
+    .populate("agentId", "agentDetail")
+    .populate("userId", "_id email name");
   res.status(200).json(customers);
 });
 
@@ -30,7 +31,8 @@ export const getCustomerPaginatedPost = expressAsyncHandler(
       .skip(Number(pageSize) * (Number(pageNumber) - 1))
       .sort({ createdAt: -1 })
       .populate("areaId", "areaDetail areaShortName")
-      .populate("agentId", "agentDetail");
+      .populate("agentId", "agentDetail")
+      .populate("userId", "_id email name");
 
     res.status(200).json({
       customers,

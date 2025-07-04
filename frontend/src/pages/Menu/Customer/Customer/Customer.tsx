@@ -68,11 +68,11 @@ const Customer: React.FC = () => {
         id: nanoid(),
         header: "Contact",
         Cell: ({ row }) => {
-          const { contactPerson, emailAddress, phoneNumber } = row.original;
+          const { phoneNumber,userId } = row.original;
           return (
             <div>
-              <div>Contact Person: {contactPerson}</div>
-              <div>Email: {emailAddress}</div>
+              <div>Contact Person: {userId?.name}</div>
+              <div>Email: {userId?.email}</div>
               <div>Phone Number: {phoneNumber}</div>
             </div>
           );
