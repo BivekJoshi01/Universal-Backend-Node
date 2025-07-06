@@ -62,7 +62,10 @@ export const useAuthHook = () => {
     onSuccess: (response) => {
       setLoggedUserId(response?.user?._id);
       setLoggedUserRole(response?.user?.role);
-      if (response?.user?.role === "ADMIN") {
+      if (
+        response?.user?.role === "ADMIN" ||
+        response?.user?.role === "SALES"
+      ) {
         navigate("/Menu/Home");
       } else {
         if (response?.user?.firstTimeLogin) {

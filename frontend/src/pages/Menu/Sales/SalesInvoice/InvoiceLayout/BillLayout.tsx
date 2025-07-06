@@ -155,8 +155,12 @@ const BillLayout = () => {
   return (
     <>
       <div className="max-w-4xl mx-auto bg-white p-8 shadow rounded-lg text-gray-700">
+        <div className="flex justify-between gap-4 text-sm mb-6">
+          <p className="font-medium">Bill No: ....................</p>
+          <p>Date: 2025-02-02</p>
+        </div>
+        <Input />
         <BillSalesUI cartItems={cartItems} />
-        {/* Totals */}
         <div className="flex mb-8">
           <div className="w-full">
             <div className="flex justify-between py-2 border-b border-gray-300">

@@ -81,7 +81,6 @@ export function AutocompleteSelectGetRequestField({
             "text-left file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground",
             "border-card-foreground focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[1px]",
             "aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive",
-            !value ? "text-muted-foreground" : "text-foreground"
           )}
         >
           <span className="block max-w-[150px] truncate">

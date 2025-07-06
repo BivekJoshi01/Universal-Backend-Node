@@ -54,7 +54,7 @@ const AppRoutes: React.FC = () => {
             element={
               <ProtectedRoute
                 isAuthenticated={true}
-                allowedRoles={["ADMIN"]}
+                allowedRoles={["ADMIN","SALES"]}
                 element={<AdminPageLayout />}
               />
             }
