@@ -84,9 +84,10 @@ export const RenderInput: React.FC<RenderInputProps> = ({
                 <Controller
                   name={field.name}
                   control={control}
+                  defaultValue=""
                   render={({ field: controllerField }) => (
                     <AutocompleteSelectField
-                      {...controllerField}
+                      {...controllerField} // ✅ pass all control props
                       placeholder={field.placeholder || "Select Option"}
                       options={field.options || []}
                     />

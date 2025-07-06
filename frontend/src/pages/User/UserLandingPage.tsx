@@ -2,6 +2,8 @@ import React from "react";
 import { CiStar } from "react-icons/ci";
 import LogoSVG from "../../assets/Office/GlobeImage.svg";
 import { FiShoppingCart } from "react-icons/fi";
+import ShopByCategory from "./ShopByCategory";
+import ProductShop from "./ProductShop";
 
 const UserLandingPage: React.FC = () => {
   return (
@@ -29,7 +31,7 @@ const UserLandingPage: React.FC = () => {
         <img
           src={LogoSVG}
           alt="Background Logo"
-          className="absolute inset-0 w-full h-full object-contain opacity-5 pointer-events-none"
+          className="absolute inset-0 w-full h-full object-contain opacity-31 pointer-events-none"
         />
 
         <div className="relative z-10 max-w-4xl mx-auto">
@@ -52,30 +54,8 @@ const UserLandingPage: React.FC = () => {
       </section>
 
       {/* Categories with cosmic vibe */}
-      <section className="container mx-auto py-16 px-6 text-white">
-        <h3 className="text-4xl font-bold text-center mb-10 tracking-wide drop-shadow-md">
-          ✨ Shop by Galaxy
-        </h3>
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-8">
-          {[
-            { name: "Pens", icon: "🪐" },
-            { name: "Notebooks", icon: "📓" },
-            { name: "Art Supplies", icon: "🎨" },
-            { name: "Backpacks", icon: "🎒" },
-            { name: "Desk Items", icon: "🛸" },
-          ].map(({ name, icon }) => (
-            <div
-              key={name}
-              className="bg-gradient-to-tr from-indigo-900 to-blue-800 rounded-3xl shadow-lg p-6 text-center cursor-pointer group transform transition hover:scale-105 hover:shadow-pink-700"
-            >
-              <div className="text-6xl mb-4 drop-shadow-lg">{icon}</div>
-              <span className="text-xl font-semibold group-hover:text-pink-400 transition-colors">
-                {name}
-              </span>
-            </div>
-          ))}
-        </div>
-      </section>
+      <ShopByCategory />
+      <ProductShop/>
 
       {/* New Arrivals with dark card and neon accents */}
       <section className="container mx-auto py-16 px-6">
@@ -210,68 +190,6 @@ export default UserLandingPage;
 // const UserLandingPage: React.FC = () => {
 //   return (
 //     <>
-//       {/* Hero Section */}
-//       <section
-//         className="relative py-20 px-6 text-center overflow-hidden"
-//         style={{
-//           background:
-//             "radial-gradient(ellipse at center, #0f2027 0%, #203a43 60%, #2c5364 100%)",
-//           color: "white",
-//         }}
-//       >
-//         <div
-//           className="absolute inset-0 pointer-events-none"
-//           style={{
-//             backgroundImage:
-//               "radial-gradient(white 1px, transparent 1px), radial-gradient(white 1px, transparent 1px)",
-//             backgroundSize: "20px 20px",
-//             backgroundPosition: "0 0, 10px 10px",
-//             opacity: 0.1,
-//           }}
-//         />
-//         <img
-//           src={LogoSVG}
-//           alt="Background Logo"
-//           className="absolute inset-0 w-full h-full object-contain opacity-5 pointer-events-none"
-//         />
-
-//         <div className="relative z-10 max-w-5xl mx-auto">
-//           <h2 className="text-5xl font-extrabold mb-6 drop-shadow-lg tracking-wide">
-//             Explore the Universe of Universal Stationery
-//           </h2>
-//           <p className="text-lg mb-4 text-blue-200">
-//             One-stop shop for premium school, art & office essentials.
-//           </p>
-//           <p className="text-blue-300 mb-6 leading-relaxed text-sm">
-//             From colorful pens and creative art tools to office must-haves, we bring the cosmos of productivity to your fingertips. Dive into our wide collection and elevate your everyday work and creativity.
-//           </p>
-//           <button className="px-8 py-3 bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 rounded-full font-semibold text-white shadow-lg hover:shadow-pink-600 transition transform hover:scale-105">
-//             Explore Products
-//           </button>
-//         </div>
-//       </section>
-
-//       {/* Categories */}
-//       <section className="container mx-auto py-16 px-6 text-white">
-//         <h3 className="text-3xl font-bold text-center mb-8 tracking-wide drop-shadow-md">
-//           🔭 Discover Categories
-//         </h3>
-//         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-6">
-//           {["Pens", "Notebooks", "Art Supplies", "Backpacks", "Desk Items"].map(
-//             (name, idx) => (
-//               <div
-//                 key={idx}
-//                 className="bg-gradient-to-tr from-indigo-900 to-blue-800 rounded-3xl shadow-lg p-4 text-center cursor-pointer group hover:scale-105 transition-all"
-//               >
-//                 <div className="text-4xl mb-3">🪐</div>
-//                 <h4 className="text-lg font-semibold group-hover:text-pink-400">
-//                   {name}
-//                 </h4>
-//               </div>
-//             )
-//           )}
-//         </div>
-//       </section>
 
 //       {/* Featured Products */}
 //       <section className="container mx-auto py-16 px-6">

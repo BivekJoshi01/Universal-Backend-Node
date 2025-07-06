@@ -14,8 +14,7 @@ const validationSchema = yup.object().shape({
   // Add validation if needed
 });
 
-const CompleteProfileForm: React.FC = () => {
-  const loggedUsersData = useSelector((state: RootState) => state.auth.user);
+const CompleteProfileForm: React.FC<any> = ({ loggedUserData }) => {
 
   const {
     register,
@@ -27,8 +26,6 @@ const CompleteProfileForm: React.FC = () => {
     resolver: yupResolver(validationSchema),
   });
 
-  const { data: loggedUserData } = useGetLoggedUserData();
-  console.log("🚀 ~ loggedUserData:", loggedUserData?.user)
 
 
   useEffect(() => {
@@ -47,22 +44,6 @@ const CompleteProfileForm: React.FC = () => {
   const isRetailer = useWatch({ control, name: "isRetailer" });
 
   const baseFields: InputField[] = [
-    // {
-    //   name: "customerDetail",
-    //   type: "text",
-    //   placeholder: "Enter customer name",
-    //   label: "Customer Name",
-    //   required: true,
-    //   gridClass: "col-span-4",
-    // },
-    // {
-    //   name: "email",
-    //   type: "email",
-    //   placeholder: "Enter email",
-    //   label: "Email",
-    //   required: true,
-    //   gridClass: "col-span-4",
-    // },
     {
       name: "phoneNumber",
       type: "text",

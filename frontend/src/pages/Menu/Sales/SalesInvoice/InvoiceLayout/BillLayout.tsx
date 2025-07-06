@@ -13,8 +13,10 @@ import { PrintableSalesBillLayout } from "../../SalesHelper/PrintableSalesBillLa
 
 const BillLayout = () => {
   const cartItems = useSelector((state: RootState) => state.purchaseCart.items);
+  const loggedUsersData = useSelector((state: RootState) => state.auth.user);
+
   const [isVATChecked, setIsVATChecked] = useState(false);
-  const [isDISCOUNTChecked, setIsDISCOUNTChecked] = useState(false);
+  const [isDISCOUNTChecked, setIsDISCOUNTChecked] = useState(true);
   const [vatPercent, setVatPercent] = useState(13);
   const [discountAmount, setDiscountAmount] = useState(0);
   const [discountPercent, setDiscountPercent] = useState(0);
@@ -25,8 +27,8 @@ const BillLayout = () => {
     ? discountAmount > 0
       ? discountAmount
       : discountPercent > 0
-        ? (subTotal * discountPercent) / 100
-        : 0
+      ? (subTotal * discountPercent) / 100
+      : 0
     : 0;
   const grandTotal = subTotal + tax - discountValue;
 
@@ -36,25 +38,29 @@ const BillLayout = () => {
   };
 
   const handleCheckboxToggle = () => {
-    setIsVATChecked(prev => !prev);
+    setIsVATChecked((prev) => !prev);
     if (!isVATChecked) setVatPercent(13);
   };
 
   const handleCheckboxDiscountToggle = () => {
-    setIsDISCOUNTChecked(prev => !prev);
+    setIsDISCOUNTChecked((prev) => !prev);
     if (!isDISCOUNTChecked) {
       setDiscountAmount(0);
       setDiscountPercent(0);
     }
   };
 
-  const handleDiscountAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleDiscountAmountChange = (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
     const value = parseFloat(e.target.value);
     setDiscountAmount(!isNaN(value) ? value : 0);
     setDiscountPercent(0);
   };
 
-  const handleDiscountPercentChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleDiscountPercentChange = (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
     const value = parseFloat(e.target.value);
     setDiscountPercent(!isNaN(value) ? value : 0);
     setDiscountAmount(0);
@@ -69,28 +75,6 @@ const BillLayout = () => {
   } = useForm();
 
   const { mutate: addMutate } = useAddSalesRecordHook();
-
-  // const handlePrint = async () => {
-  //   const logoBase64 = await getBase64FromImage(ComLogo);
-  //   const billData = {
-  //     cartItems,
-  //     subTotal,
-  //     tax,
-  //     vatPercent,
-  //     isVATChecked,
-  //     discountAmount,
-  //     discountPercent,
-  //     discountValue,
-  //     isDISCOUNTChecked,
-  //     grandTotal,
-  //   };
-  //   setPrintableData({ billData, logoBase64 });
-
-  //   // Wait for DOM update
-  //   setTimeout(() => {
-  //     window.print();
-  //   }, 100);
-  // };
 
   const handlePrint = async () => {
     const logoBase64 = await getBase64FromImage(ComLogo);
@@ -108,8 +92,10 @@ const BillLayout = () => {
       grandTotal,
     };
 
-    // const htmlContent = PrintSaleBillLayout({ billData, logoBase64 });
-    const htmlContent = PrintableSalesBillLayout({ billData, logoBase64 });
+    const htmlContent =
+      loggedUsersData?.role !== "SALES"
+        ? PrintSaleBillLayout({ billData, logoBase64 })
+        : PrintableSalesBillLayout({ billData, logoBase64 });
 
     const iframe = document.createElement("iframe");
     iframe.style.position = "fixed";
@@ -130,12 +116,11 @@ const BillLayout = () => {
         setTimeout(() => {
           iframe.contentWindow?.focus();
           iframe.contentWindow?.print();
-          document.body.removeChild(iframe); // Clean up
+          document.body.removeChild(iframe);
         }, 100);
       };
     }
   };
-
 
   const handleSubmitPrint = async (formData: any) => {
     const billData = {
@@ -223,7 +208,6 @@ const BillLayout = () => {
                   placeholder="Amt"
                 />
                 <span>Amt</span>
-
               </div>
               <span>Rs. {discountValue.toFixed(2)}</span>
             </div>
@@ -233,7 +217,10 @@ const BillLayout = () => {
             </div>
           </div>
         </div>
-        <Button className="w-full mt-6" onClick={handleSubmit(handleSubmitPrint)}>
+        <Button
+          className="w-full mt-6"
+          onClick={handleSubmit(handleSubmitPrint)}
+        >
           Submit & Print
         </Button>
       </div>

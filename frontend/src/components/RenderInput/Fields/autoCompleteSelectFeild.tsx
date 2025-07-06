@@ -20,22 +20,31 @@ type Option = {
 type AutocompleteSelectFieldProps = {
   options?: Option[];
   placeholder?: string;
-  value?: string; // controlled value from form
-  onChange?: (value: string) => void; // form's onChange handler
-};
+} & React.InputHTMLAttributes<HTMLInputElement>; // 👈 for RHF control props
 
 export function AutocompleteSelectField({
-  options,
-  placeholder,
+  options = [],
+  placeholder = "Select",
   value = "",
-  onChange = () => {},
+  onChange,
+  ...rest
 }: AutocompleteSelectFieldProps) {
   const [open, setOpen] = React.useState(false);
 
   const handleSelect = (selectedValue: string) => {
-    onChange(selectedValue === value ? "" : selectedValue); // toggle selection
+    onChange?.({
+      target: {
+        name: rest.name,
+        value: selectedValue === value ? "" : selectedValue,
+      },
+    } as React.ChangeEvent<HTMLInputElement>); // 👈 mimic native input event
     setOpen(false);
   };
+
+  const selectedLabel = options?.find(
+    (option) => String(option.value) === String(value)
+  )?.label;
+  console.log("🚀 ~ selectedLabel:", selectedLabel)
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -47,26 +56,23 @@ export function AutocompleteSelectField({
           className={cn(
             "flex h-9 w-full min-w-0 items-center justify-between rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none",
             "text-left file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground",
-            "border-input focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[1px]",
+            "border-card-foreground focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[1px]",
             "aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive",
-            !value ? "text-muted-foreground" : "text-foreground"
           )}
         >
           <span className="block max-w-[150px] truncate">
-            {value
-              ? options?.find((option) => option.value === value)?.label
-              : placeholder}
+            {selectedLabel || placeholder}
           </span>
           <MdOutlineKeyboardArrowDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </button>
       </PopoverTrigger>
-      <PopoverContent className="w-[200px] p-0">
+      <PopoverContent className="w-[250px] p-0">
         <Command>
           <CommandInput placeholder={placeholder} />
           <CommandList>
             <CommandEmpty>No option found.</CommandEmpty>
             <CommandGroup>
-              {options?.map((option) => (
+              {options.map((option) => (
                 <CommandItem
                   key={option.value}
                   value={option.value}
