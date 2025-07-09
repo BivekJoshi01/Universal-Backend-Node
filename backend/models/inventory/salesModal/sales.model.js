@@ -41,6 +41,16 @@ const SalesSchema = new mongoose.Schema(
         },
       },
     ],
+    customerId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Customer",
+      required: true,
+    },
+    customerName: {
+      type: String,
+      required: true,
+      trim: true,
+    },
     discountAmount: {
       type: Number,
       required: true,

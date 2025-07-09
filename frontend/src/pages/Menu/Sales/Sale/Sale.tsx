@@ -40,31 +40,65 @@ const Sale = () => {
     mutate({ formData: { ...pagination } });
   }, [pagination]);
 
-  const columns = useMemo<MRT_ColumnDef<any>[]>(
-    () => [
-      {
-        accessorKey: "subTotal",
-        header: "subTotal",
+const columns = useMemo<MRT_ColumnDef<any>[]>(
+  () => [
+    {
+      accessorKey: "customerName",
+      header: "Customer",
+    },
+    {
+      accessorKey: "subTotal",
+      header: "Sub Total",
+      Cell: ({ row }) => `Rs. ${row.original.subTotal?.toFixed(2)}`,
+    },
+    {
+      header: "Discount",
+      Cell: ({ row }) => {
+        const {
+          isDISCOUNTChecked,
+          discountPercent,
+          discountAmount,
+          discountValue,
+        } = row.original;
+
+        if (!isDISCOUNTChecked) return <span>-</span>;
+
+        return (
+          <div className="text-sm">
+            {discountPercent > 0 && (
+              <div>{discountPercent}% → Rs. {discountValue?.toFixed(2)}</div>
+            )}
+            {discountAmount > 0 && (
+              <div>Flat → Rs. {discountValue?.toFixed(2)}</div>
+            )}
+          </div>
+        );
       },
-      {
-        accessorKey: "grandTotal",
-        header: "grandTotal",
+    },
+    {
+      header: "VAT",
+      Cell: ({ row }) => {
+        const { isVATChecked, vatPercent, tax } = row.original;
+
+        if (!isVATChecked) return <span>-</span>;
+
+        return (
+          <div className="text-sm">
+            <div>{vatPercent}%</div>
+            <div>Rs. {tax?.toFixed(2)}</div>
+          </div>
+        );
       },
-      // {
-      //   accessorKey: "street",
-      //   header: "Address",
-      //   Cell: ({ row }) => {
-      //     const { city, country, street } = row.original;
-      //     return (
-      //       <div>
-      //         <div>Country: {country}</div>
-      //         <div>City: {city}</div>
-      //         <div>Street: {street}</div>
-      //       </div>
-      //     );
-      //   },
-      // },
-    ], []);
+    },
+    {
+      accessorKey: "grandTotal",
+      header: "Grand Total",
+      Cell: ({ row }) => `Rs. ${row.original.grandTotal?.toFixed(2)}`,
+    },
+  ],
+  []
+);
+
 
   return (
     <>
