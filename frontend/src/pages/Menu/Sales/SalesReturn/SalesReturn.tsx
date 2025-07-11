@@ -1,8 +1,14 @@
 import React from 'react'
+import LetterHead from "../../../../assets/UniversalLetterhead.pdf"
+import Header from '../../../../components/Header/Header'
 
-const SalesReturn : React.FC= () => {
+const SalesReturn: React.FC = () => {
   return (
-    <div>SalesReturn</div>
+    <>
+      <Header>
+        <></>
+      </Header>
+    </>
   )
 }
 

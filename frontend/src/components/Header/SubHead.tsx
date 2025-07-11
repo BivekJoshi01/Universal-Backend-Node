@@ -132,7 +132,7 @@ const SubHead = () => {
       </div>
       <Drawer open={openDrawer} onOpenChange={setOpenDrawer}>
         <DrawerContent
-          className="fixed top-0 left-0 h-screen w-full bg-white"
+          className="fixed top-0 left-0 h-screen w-full bg-background"
         >
           <LetterHead />
         </DrawerContent>

@@ -8,7 +8,7 @@ import {
 const LetterHead = () => {
   return (
     <div >
-      <DrawerHeader className="bg-gray-100 p-4 border-b">
+      <DrawerHeader className=" p-4 border-b">
         <DrawerTitle className="text-lg font-semibold">Letter Head</DrawerTitle>
         <DrawerClose className="text-sm text-blue-600 hover:underline mt-1">
           Close
