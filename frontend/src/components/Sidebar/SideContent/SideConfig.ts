@@ -50,6 +50,7 @@ export const getRoutesByHeadTab = ({ headTab }: { headTab: string }) => {
           title: "Purchase",
           hasSubmenu: true,
           submenu: [
+            { Icon: FiClipboard, title: "Purchase List" },
             { Icon: FiClipboard, title: "Invoice" },
             { Icon: FiClipboard, title: "Return" },
           ],

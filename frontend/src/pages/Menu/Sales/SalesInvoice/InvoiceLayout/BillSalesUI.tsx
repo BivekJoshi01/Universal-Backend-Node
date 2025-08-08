@@ -1,7 +1,7 @@
 import React from "react";
 import { Delete } from "lucide-react";
 import { useDispatch } from "react-redux";
-import { purchaseRemoveFromCart } from "../../../../../redux/reducer/productPurchaseCart";
+import { salesRemoveFromCart } from "../../../../../redux/reducer/productSalesCart";
 
 type CartItem = {
   pm_id: string;
@@ -20,7 +20,7 @@ const BillSalesUI: React.FC<BillSalesUIProps> = ({ cartItems = [] }) => {
   const dispatch = useDispatch();
 
   const handleRemoveItem = (id: string) => {
-    dispatch(purchaseRemoveFromCart(id));
+    dispatch(salesRemoveFromCart(id));
   };
 
   return (

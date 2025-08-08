@@ -5,6 +5,7 @@ import PurchaseInvoice from "../pages/Menu/Purchase/PurchaseInvoice/PurchaseInvo
 import SalesInvoice from "../pages/Menu/Sales/SalesInvoice/SalesInvoice";
 import SalesReturn from "../pages/Menu/Sales/SalesReturn/SalesReturn";
 import PurchaseReturn from "../pages/Menu/Purchase/PurchaseReturn/PurchaseReturn";
+import PurchaseList from "../pages/Menu/Purchase/PurchaseList/PurchaseList";
 // ---------------------------------Purchase Sales-----------------------------------------------------------
 
 // ---------------------------------Product-----------------------------------------------------------
@@ -80,6 +81,7 @@ export const MenuRoutesConfig = [
         path: "Purchase",
         element: Outlet,
         children: [
+          { path: "Purchase List", element: PurchaseList },
           { path: "Invoice", element: PurchaseInvoice },
           { path: "Return", element: PurchaseReturn },
         ],

@@ -96,7 +96,7 @@ const ProductManagement: React.FC = () => {
         id: nanoid(),
         accessorKey: "perUnitPrice",
         header: "Per Unit Price",
-      }
+      },
     ],
     []
   );
@@ -121,7 +121,6 @@ const ProductManagement: React.FC = () => {
     setOpenEditModel(true);
   };
 
-
   return (
     <div>
       <Header
@@ -131,10 +130,12 @@ const ProductManagement: React.FC = () => {
         openModel={openModel}
         setOpenModel={setOpenModel}
       >
-        <ProductManagementForm onClose={() => {
-          setOpenEditModel(false);
-          mutate({ formData: { ...searchKeyword, ...pagination } });
-        }} />
+        <ProductManagementForm
+          onClose={() => {
+            setOpenEditModel(false);
+            mutate({ formData: { ...searchKeyword, ...pagination } });
+          }}
+        />
       </Header>
       <FilterSearch
         inputFields={inputFields}
@@ -156,7 +157,7 @@ const ProductManagement: React.FC = () => {
         handleEdit={handleEdit}
         enableExpand={true}
         renderRowSubComponent={(row: any) => (
-          <div >
+          <div>
             <strong>Extra Info:</strong> {row.extraInfo}
           </div>
         )}

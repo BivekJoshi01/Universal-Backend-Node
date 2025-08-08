@@ -5,8 +5,8 @@ import { Tabs, TabsList, TabsTrigger } from "../../../../../components/ui/tabs";
 import { BiSolidMessageSquareError } from "react-icons/bi";
 import { Popover, PopoverContent, PopoverTrigger } from "../../../../../components/ui/popover";
 import { useDispatch, useSelector } from "react-redux";
-import { purchaseAddToCart } from "../../../../../redux/reducer/productPurchaseCart";
 import { RootState } from "../../../../../redux/store";
+import { salesAddToCart } from "../../../../../redux/reducer/productSalesCart";
 
 const ProductCardUI: React.FC<any> = ({ pm }) => {
     const dispatch = useDispatch();
@@ -16,7 +16,7 @@ const ProductCardUI: React.FC<any> = ({ pm }) => {
         pm?.unitOfMeasurement?.unitCategory
     );
 
-    const cartItems = useSelector((state: RootState) => state.purchaseCart.items);
+    const cartItems = useSelector((state: RootState) => state.salesCart.items);
 
     const [productPrice, setProductPrice] = useState(() => {
         return pm?.unitOfMeasurement?.unitCategory === selectedTab
@@ -55,7 +55,7 @@ const ProductCardUI: React.FC<any> = ({ pm }) => {
             totalPrice: productPrice * quantity
         };
 
-        dispatch(purchaseAddToCart(cartItem));
+        dispatch(salesAddToCart(cartItem));
     };
 
     const isInCart = cartItems.some(item => item.pm_id === pm._id);

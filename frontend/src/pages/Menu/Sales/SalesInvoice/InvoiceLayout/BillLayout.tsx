@@ -23,7 +23,7 @@ export interface Customer {
 }
 
 const BillLayout = () => {
-  const cartItems = useSelector((state: RootState) => state.purchaseCart.items);
+  const cartItems = useSelector((state: RootState) => state.salesCart.items);
   const loggedUsersData = useSelector((state: RootState) => state.auth.user);
 
   const [isVATChecked, setIsVATChecked] = useState(false);
