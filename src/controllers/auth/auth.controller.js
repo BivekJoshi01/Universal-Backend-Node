@@ -251,7 +251,18 @@ export const resetPassword = async (req, res) => {
 
 export const allUsers = expressAsyncHandler(async (req, res) => {
   try {
-    const users = await User.find().select("-password");
+    const keyword = req.query.search
+      ? {
+          $or: [
+            { name: { $regex: req.query.search, $options: "i" } },
+            { email: { $regex: req.query.search, $options: "i" } },
+          ],
+        }
+      : {};
+
+    const users = await User.find(keyword).find({
+      _id: { $ne: req.userId }, // FIXED
+    }).select("-password"); // recommended
 
     res.status(200).json({
       success: true,
@@ -265,3 +276,4 @@ export const allUsers = expressAsyncHandler(async (req, res) => {
     });
   }
 });
+

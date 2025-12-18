@@ -1,7 +1,8 @@
 import expressAsyncHandler from "express-async-handler";
 import Customer from "../../models/customerSupplierModel/customer.model.js";
 import { buildSearchConditions } from "../../config/heplerConditions.js";
-import User from "../../models/auth/userModel.js";
+import { User } from "../../models/auth/user.model.js";
+// import User from "../../models/auth/userModel.js";
 
 export const createCustomer = expressAsyncHandler(async (req, res) => {
   const customer = await Customer.create(req.body);
