@@ -1,5 +1,7 @@
+import { User } from "../../models/auth/user.model";
+
 const expressAsyncHandler = require("express-async-handler");
-const User = require("../../models/auth/userModel");
+// const User = require("../../models/auth/userModel");
 const generateToken = require("../../config/generateToken");
 
 const registerUser = expressAsyncHandler(async (req, res) => {

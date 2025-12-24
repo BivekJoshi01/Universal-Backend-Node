@@ -1,6 +1,6 @@
 import expressAsyncHandler from "express-async-handler";
-import Chat from "../../models/chat/chatModel.js";
-import User from "../../models/auth/userModel.js";
+import { Chat } from "../../models/chat/chatModel.js";
+import { User } from "../../models/auth/user.model.js";
 
 export const accessChat = expressAsyncHandler(async (req, res) => {
   const { userId } = req.body;
@@ -13,7 +13,7 @@ export const accessChat = expressAsyncHandler(async (req, res) => {
   let isChat = await Chat.find({
     isGroupChat: false,
     $and: [
-      { users: { $elemMatch: { $eq: req.user._id } } },
+      { users: { $elemMatch: { $eq: req.userId } } }, // FIXED
       { users: { $elemMatch: { $eq: userId } } },
     ],
   })
@@ -33,14 +33,17 @@ export const accessChat = expressAsyncHandler(async (req, res) => {
     const chatData = {
       chatName: "sender",
       isGroupChat: false,
-      users: [req.user._id, userId],
+      users: [req.userId, userId], // FIXED
     };
 
     const createdChat = await Chat.create(chatData);
-    const fullChat = await Chat.findById(createdChat._id)
-      .populate("users", "-password");
 
-    res.status(200).send(fullChat);
+    const fullChat = await Chat.findById(createdChat._id).populate(
+      "users",
+      "-password"
+    );
+
+    return res.status(200).send(fullChat);
   } catch (error) {
     res.status(400);
     throw new Error(error.message);
@@ -49,7 +52,9 @@ export const accessChat = expressAsyncHandler(async (req, res) => {
 
 export const fetchChat = expressAsyncHandler(async (req, res) => {
   try {
-    let chats = await Chat.find({ users: { $elemMatch: { $eq: req.user._id } } })
+    let chats = await Chat.find({
+      users: { $elemMatch: { $eq: req.userId } },
+    })
       .populate("users", "-password")
       .populate("groupAdmin", "-password")
       .populate("latestMessage")
@@ -77,19 +82,18 @@ export const createGroup = expressAsyncHandler(async (req, res) => {
   const users = JSON.parse(usersRaw);
 
   if (users.length < 2) {
-    return res
-      .status(400)
+    return res.status(400)
       .send("More than 2 users are required to form a group chat");
   }
 
-  users.push(req.user);
+  users.push(req.userId);
 
   try {
     const groupChat = await Chat.create({
       chatName: name,
       users,
       isGroupChat: true,
-      groupAdmin: req.user,
+      groupAdmin: req.userId,
     });
 
     const fullGroupChat = await Chat.findById(groupChat._id)
