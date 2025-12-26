@@ -44,7 +44,7 @@ app.use("/api/third-party", thirdPartyRoutes);
 app.use(notFound);
 app.use(errorHandler);
 
-const PORT = process.env.PORT || 7100;
+const PORT = process.env.PORT || 8100;
 
 const server = app.listen(PORT, async () => {
   await connectDB();
@@ -60,23 +60,24 @@ const io = new Server(server, {
 });
 
 io.on("connection", (socket) => {
-  console.log("Connected to socket.io");
+  // console.log("Connected to socket.io");//work here good
 
   socket.on("setup", (userData) => {
     socket.join(userData);
-    console.log(userData, "logged UserId");
+    // console.log(userData, "logged UserId");//works good
     socket.emit("connected");
   });
 
   socket.on("join chat", (room) => {
+    // console.log("🚀 ~ room:", room)
     socket.join(room);
-    console.log("User Joined Room: " + room);
+    // console.log("User Joined Room: " + room);//works good
   });
 
   socket.on("typing", (room) => socket.in(room).emit("typing"));
-  
-  socket.on("stop typing", (room) => socket.in(room).emit("stop typing"));  
-  
+
+  socket.on("stop typing", (room) => socket.in(room).emit("stop typing"));
+
   socket.on("new message", (newMessageRecieved) => {
     var chat = newMessageRecieved.chat;
 

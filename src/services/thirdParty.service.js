@@ -1,6 +1,5 @@
 import thirdPartyApi from "./thirdPartyApi.js";
 
-
 export const fetchThirdPartyUser = async (userId, token) => {
   try {
     const response = await thirdPartyApi.get(`user/getbyid/${userId}`, {
